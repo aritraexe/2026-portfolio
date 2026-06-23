@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Writing — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.blog-list { display: flex; flex-direction: column; }
+.blog-item {
+  display: grid; grid-template-columns: 80px 1fr;
+  gap: 1.2rem; align-items: baseline;
+  padding: 1.1rem 0; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: opacity 0.2s;
+  text-decoration: none; color: inherit;
+}
+.blog-item:first-child { border-top: 1px solid var(--border); }
+.blog-item:hover { opacity: 0.65; }
+.blog-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); padding-top: 2px; }
+.blog-title { font-size: 0.88rem; line-height: 1.5; margin-bottom: 0.2rem; }
+.blog-cat { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+
+@media (max-width: 580px) {
+  .blog-item { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+</style>
+<script src="shared.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">Your Name</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="blog.html">Writing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="toggle" aria-label="Toggle theme" onclick="toggleTheme()"></button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <h2>Writing</h2>
+    <p>Technical notes, opinions, and lessons from shipping software.</p>
+  </div>
+
+  <div class="blog-list">
+
+    <a class="blog-item" href="#">
+      <span class="blog-date">Jun 2025</span>
+      <div>
+        <p class="blog-title">Why I switched from REST to tRPC for my next SaaS</p>
+        <p class="blog-cat">Architecture</p>
+      </div>
+    </a>
+
+    <a class="blog-item" href="#">
+      <span class="blog-date">May 2025</span>
+      <div>
+        <p class="blog-title">React Native vs Flutter in 2025 — a pragmatic take</p>
+        <p class="blog-cat">Mobile</p>
+      </div>
+    </a>
+
+    <a class="blog-item" href="#">
+      <span class="blog-date">Apr 2025</span>
+      <div>
+        <p class="blog-title">Shaving 2 seconds off my app's cold start time</p>
+        <p class="blog-cat">Performance</p>
+      </div>
+    </a>
+
+    <a class="blog-item" href="#">
+      <span class="blog-date">Feb 2025</span>
+      <div>
+        <p class="blog-title">The case for boring technology in early-stage products</p>
+        <p class="blog-cat">Opinion</p>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Your Name</span>
+  <span>Web &amp; App Developer</span>
+</footer>
+
+</body>
+</html>

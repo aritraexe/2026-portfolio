@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.contact-intro { font-size: 0.92rem; color: var(--muted); line-height: 1.85; margin-bottom: 2rem; max-width: 460px; }
+
+.contact-rows { display: flex; flex-direction: column; margin-bottom: 3rem; }
+.contact-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.95rem 0; border-bottom: 1px solid var(--border);
+  font-size: 0.85rem; transition: opacity 0.2s;
+  text-decoration: none; color: inherit;
+}
+.contact-row:first-child { border-top: 1px solid var(--border); }
+.contact-row:hover { opacity: 0.6; }
+.contact-row-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); }
+.contact-row-arrow { color: var(--muted); font-size: 0.78rem; }
+
+.form-section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-field label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.form-field input, .form-field textarea {
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text); padding: 0.68rem 0.85rem;
+  font-family: 'Inter', sans-serif; font-size: 0.87rem;
+  border-radius: 3px; outline: none; resize: none; width: 100%;
+  transition: border-color 0.2s;
+}
+.form-field input:focus, .form-field textarea:focus { border-color: var(--muted); }
+.form-field textarea { min-height: 120px; }
+.form-send {
+  background: var(--text); color: var(--bg);
+  border: none; padding: 0.7rem 1.4rem;
+  font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 500;
+  border-radius: 3px; cursor: pointer; align-self: flex-start;
+  transition: opacity 0.2s;
+}
+.form-send:hover { opacity: 0.75; }
+
+@media (max-width: 580px) {
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+<script src="shared.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">Your Name</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="blog.html">Writing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="toggle" aria-label="Toggle theme" onclick="toggleTheme()"></button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <h2>Contact</h2>
+    <p>Let's build something together.</p>
+  </div>
+
+  <p class="contact-intro">
+    Open to freelance projects, contracts, and interesting full-time roles.
+    If you have something worth building, I'd like to hear about it.
+  </p>
+
+  <div class="contact-rows">
+    <a class="contact-row" href="mailto:hello@yourname.dev">
+      <span class="contact-row-label">Email</span>
+      <span>hello@yourname.dev</span>
+      <span class="contact-row-arrow">↗</span>
+    </a>
+    <a class="contact-row" href="#" target="_blank">
+      <span class="contact-row-label">GitHub</span>
+      <span>github.com/yourname</span>
+      <span class="contact-row-arrow">↗</span>
+    </a>
+    <a class="contact-row" href="#" target="_blank">
+      <span class="contact-row-label">LinkedIn</span>
+      <span>linkedin.com/in/yourname</span>
+      <span class="contact-row-arrow">↗</span>
+    </a>
+  </div>
+
+  <p class="form-section-label">Or send a message</p>
+  <div class="contact-form">
+    <div class="form-row">
+      <div class="form-field"><label>Name</label><input type="text" placeholder="Your name"/></div>
+      <div class="form-field"><label>Email</label><input type="email" placeholder="you@example.com"/></div>
+    </div>
+    <div class="form-field"><label>Message</label><textarea placeholder="What are you working on?"></textarea></div>
+    <button class="form-send" onclick="handleSend(this)">Send message</button>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Your Name</span>
+  <span>Web &amp; App Developer</span>
+</footer>
+
+<script>
+function handleSend(btn) {
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Sent ✓';
+    setTimeout(() => { btn.textContent = 'Send message'; btn.disabled = false; }, 2500);
+  }, 1000);
+}
+</script>
+</body>
+</html>

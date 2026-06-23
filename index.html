@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your Name — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* HERO LAYOUT */
+.hero-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+.hero-text { flex: 1; min-width: 0; }
+
+/* AVATAR */
+.hero-avatar {
+  flex-shrink: 0;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  background: var(--bg2);
+}
+.hero-avatar svg { width: 100%; height: 100%; display: block; }
+
+.hero-status {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; color: var(--muted);
+  margin-bottom: 1.6rem;
+}
+.status-dot { width: 6px; height: 6px; background: #4caf7d; border-radius: 50%; }
+
+h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2rem);
+  font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+  margin-bottom: 1.1rem;
+}
+.hero-desc {
+  font-size: 0.9rem; color: var(--muted);
+  line-height: 1.85; max-width: 440px; margin-bottom: 2rem;
+}
+.hero-nav-links { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.hero-nav-link {
+  font-size: 0.82rem; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s, border-color 0.2s;
+}
+.hero-nav-link:hover { color: var(--text); border-color: var(--muted); }
+
+.about-text { font-size: 0.92rem; color: var(--muted); line-height: 1.9; }
+.about-text + .about-text { margin-top: 0.8rem; }
+.skills-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.skill-item {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.55rem; border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+  .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
+  .hero-avatar { width: 110px; height: 110px; }
+}
+</style>
+<script src="shared.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">Your Name</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="blog.html">Writing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="toggle" aria-label="Toggle theme" onclick="toggleTheme()"></button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-status"><span class="status-dot"></span>Available for new projects</div>
+      <h1>Web &amp; App Developer.<br/>I build things that work.</h1>
+      <p class="hero-desc">
+        Full-stack developer focused on web and mobile applications.
+        Clean code, honest interfaces, and software that holds up over time.
+      </p>
+      <div class="hero-nav-links">
+        <a class="hero-nav-link" href="work.html">Selected work</a>
+        <a class="hero-nav-link" href="blog.html">Writing</a>
+        <a class="hero-nav-link" href="contact.html">Get in touch</a>
+        <a class="hero-nav-link" href="#" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="hero-avatar" id="heroAvatar"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="section-label">About</p>
+  <p class="about-text">
+    I've been building for the web and mobile for over three years. I work across the full stack —
+    from database design and API architecture to polished front-end interfaces and app store submissions.
+  </p>
+  <p class="about-text">
+    I prefer working on products that solve real problems for real people. I'm comfortable with
+    ambiguity, and I know when to reach for a simple solution rather than an impressive one.
+  </p>
+  <p class="about-text">Currently based in West Bengal, India. Open to remote work worldwide.</p>
+  <div class="skills-row">
+    <span class="skill-item">JavaScript</span>
+    <span class="skill-item">TypeScript</span>
+    <span class="skill-item">React</span>
+    <span class="skill-item">Next.js</span>
+    <span class="skill-item">React Native</span>
+    <span class="skill-item">Node.js</span>
+    <span class="skill-item">PostgreSQL</span>
+    <span class="skill-item">MongoDB</span>
+    <span class="skill-item">Docker</span>
+    <span class="skill-item">AWS</span>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Your Name</span>
+  <span>Web &amp; App Developer</span>
+</footer>
+
+<script>
+function renderAvatar(theme) {
+  const isDark = theme === 'dark';
+  const skin    = isDark ? '#2a2420' : '#e8d5c0';
+  const skinHi  = isDark ? '#3a3028' : '#f5e6d0';
+  const hair    = isDark ? '#c8b89a' : '#3d2b1a';
+  const shirt   = isDark ? '#1e2a38' : '#2c3e50';
+  const shirtHi = isDark ? '#243040' : '#34495e';
+  const bg1     = isDark ? '#161614' : '#f3f2ef';
+  const bg2     = isDark ? '#1a1916' : '#ede9e4';
+  const stroke  = isDark ? '#2e2c28' : '#d8d0c8';
+
+  document.getElementById('heroAvatar').innerHTML = `
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="circle"><circle cx="100" cy="100" r="100"/></clipPath>
+      <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="${bg1}"/>
+        <stop offset="100%" stop-color="${bg2}"/>
+      </radialGradient>
+    </defs>
+    <circle cx="100" cy="100" r="100" fill="url(#bgGrad)"/>
+    <g clip-path="url(#circle)" opacity="0.18" stroke="${stroke}" stroke-width="0.5">
+      <line x1="0" y1="50" x2="200" y2="50"/><line x1="0" y1="100" x2="200" y2="100"/>
+      <line x1="0" y1="150" x2="200" y2="150"/><line x1="50" y1="0" x2="50" y2="200"/>
+      <line x1="100" y1="0" x2="100" y2="200"/><line x1="150" y1="0" x2="150" y2="200"/>
+    </g>
+    <rect x="88" y="118" width="24" height="22" rx="6" fill="${skin}" clip-path="url(#circle)"/>
+    <path d="M40 200 Q55 148 100 142 Q145 148 160 200 Z" fill="${shirt}" clip-path="url(#circle)"/>
+    <path d="M88 142 Q100 138 112 142 L114 155 Q100 150 86 155 Z" fill="${shirtHi}" clip-path="url(#circle)"/>
+    <path d="M88 140 L100 160 L112 140 Q106 145 100 145 Q94 145 88 140Z" fill="${shirt}" clip-path="url(#circle)"/>
+    <ellipse cx="100" cy="90" rx="34" ry="38" fill="${skin}"/>
+    <ellipse cx="132" cy="92" rx="6" ry="14" fill="${skin}" opacity="0.4" transform="rotate(-8 132 92)"/>
+    <ellipse cx="66" cy="90" rx="5" ry="7" fill="${skin}"/><ellipse cx="67" cy="90" rx="3" ry="4.5" fill="${skinHi}" opacity="0.4"/>
+    <ellipse cx="134" cy="90" rx="5" ry="7" fill="${skin}"/><ellipse cx="133" cy="90" rx="3" ry="4.5" fill="${skinHi}" opacity="0.4"/>
+    <path d="M68 80 Q70 54 100 52 Q130 54 132 80 Q120 70 100 70 Q80 70 68 80Z" fill="${hair}"/>
+    <path d="M68 80 Q64 72 66 62 Q72 58 76 65 Q74 72 76 80Z" fill="${hair}"/>
+    <path d="M132 80 Q136 72 134 62 Q128 58 124 65 Q126 72 124 80Z" fill="${hair}"/>
+    <path d="M82 78 Q88 75 94 78" stroke="${hair}" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <path d="M106 78 Q112 75 118 78" stroke="${hair}" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <ellipse cx="88" cy="86" rx="6" ry="6.5" fill="white"/><ellipse cx="112" cy="86" rx="6" ry="6.5" fill="white"/>
+    <circle cx="89" cy="87" r="3.8" fill="${isDark ? '#5a8fa8' : '#3b6b8a'}"/>
+    <circle cx="113" cy="87" r="3.8" fill="${isDark ? '#5a8fa8' : '#3b6b8a'}"/>
+    <circle cx="89.5" cy="87.5" r="2" fill="#111"/><circle cx="113.5" cy="87.5" r="2" fill="#111"/>
+    <circle cx="91" cy="85.5" r="1" fill="white" opacity="0.9"/><circle cx="115" cy="85.5" r="1" fill="white" opacity="0.9"/>
+    <path d="M98 92 Q96 100 98 104 Q100 106 102 104 Q104 100 102 92" stroke="${isDark ? '#8a7060' : '#c09070'}" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <path d="M90 112 Q100 118 110 112" stroke="${isDark ? '#8a6858' : '#b07858'}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M93 115 Q100 118 107 115" stroke="${isDark ? '#7a5848' : '#a06848'}" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+    <ellipse cx="80" cy="104" rx="9" ry="5" fill="${isDark ? '#a06858' : '#e8a090'}" opacity="${isDark ? '0.08' : '0.15'}"/>
+    <ellipse cx="120" cy="104" rx="9" ry="5" fill="${isDark ? '#a06858' : '#e8a090'}" opacity="${isDark ? '0.08' : '0.15'}"/>
+  </svg>`;
+}
+document.addEventListener('DOMContentLoaded', () => {
+  renderAvatar(document.documentElement.getAttribute('data-theme'));
+});
+</script>
+</body>
+</html>

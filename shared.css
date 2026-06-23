@@ -1,0 +1,106 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #111110;
+  --bg2:    #161614;
+  --border: #252422;
+  --text:   #e8e6e1;
+  --muted:  #7a7870;
+  --subtle: #3a3835;
+}
+[data-theme="light"] {
+  --bg:     #fafaf8;
+  --bg2:    #f3f2ef;
+  --border: #e0deda;
+  --text:   #1a1917;
+  --muted:  #888580;
+  --subtle: #d5d3cf;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background 0.25s, color 0.25s;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 2rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav-name { font-size: 0.88rem; font-weight: 500; letter-spacing: -0.01em; }
+.nav-right { display: flex; align-items: center; gap: 2rem; }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a {
+  font-size: 0.82rem; color: var(--muted);
+  transition: color 0.2s; font-family: 'Inter', sans-serif;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); }
+.toggle {
+  width: 38px; height: 21px;
+  background: var(--border); border-radius: 11px;
+  border: 1px solid var(--subtle);
+  cursor: pointer; position: relative;
+  transition: background 0.25s; flex-shrink: 0;
+  outline: none;
+}
+.toggle::after {
+  content: ''; position: absolute;
+  top: 2px; left: 2px;
+  width: 15px; height: 15px;
+  background: var(--muted); border-radius: 50%;
+  transition: transform 0.22s, background 0.22s;
+}
+[data-theme="light"] .toggle::after { transform: translateX(17px); background: var(--text); }
+
+/* PAGE WRAPPER */
+.page {
+  max-width: 760px; margin: 0 auto;
+  padding: 7rem 2rem 5rem;
+  animation: fadein 0.3s ease;
+}
+@keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* PAGE HEADER */
+.page-header { margin-bottom: 2.5rem; }
+.page-header h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+.page-header p { font-size: 0.82rem; color: var(--muted); }
+
+/* SECTION LABEL */
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 3.5rem 0; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  max-width: 760px; margin: 0 auto;
+  padding: 1.4rem 2rem;
+  display: flex; justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+}
+
+@media (max-width: 580px) {
+  .page { padding: 6rem 1.3rem 4rem; }
+  footer { flex-direction: column; gap: 0.4rem; }
+  nav { padding: 1rem 1.2rem; }
+  .nav-links { gap: 1.1rem; }
+}
