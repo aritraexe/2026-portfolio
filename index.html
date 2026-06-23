@@ -109,10 +109,20 @@ h1 {
 
     <div class="hero-text">
       <!-- Discord presence via Lanyard — replace YOUR_DISCORD_ID below -->
+  <div class="presence-stack">
+
   <div class="hero-status" id="discordStatus">
     <span class="status-dot" id="statusDot"></span>
-    <span id="statusText">Connecting…</span>
+    <span id="statusText">Connecting...</span>
   </div>
+
+  <div id="spotifyWidget" class="spotify-widget">
+    <span class="spotify-offline">
+      Loading Spotify...
+    </span>
+  </div>
+
+</div>
       <h1>Xenon.</h1>
       <p class="hero-desc">
         Full-stack developer focused on web and mobile applications.
@@ -158,39 +168,101 @@ h1 {
 
 
 <script>
-const DISCORD_ID = '471288359269171201';
-const LANYARD_URL = `https://api.lanyard.rest/v1/users/${DISCORD_ID}`;
+const DISCORD_ID = "471288359269171201";
 
-const statusConfig = {
-  online:  { label: 'Online',         cls: 'online'  },
-  idle:    { label: 'Idle',           cls: 'idle'    },
-  dnd:     { label: 'Do Not Disturb', cls: 'dnd'     },
-  offline: { label: 'Offline',        cls: 'offline' },
-};
+async function updatePresence() {
 
-async function fetchDiscordStatus() {
   try {
-    const res = await fetch(LANYARD_URL);
-    const data = await res.json();
-    if (!data.success) throw new Error('Lanyard error');
 
-    const status = data.data.discord_status;
-    const cfg = statusConfig[status] || statusConfig.offline;
+    const response =
+      await fetch(
+        `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+      );
 
-    const dot  = document.getElementById('statusDot');
-    const text = document.getElementById('statusText');
+    const result = await response.json();
 
-    dot.className = 'status-dot ' + cfg.cls;
-    text.textContent = cfg.label;
-  } catch (e) {
-    const text = document.getElementById('statusText');
-    if (text) text.textContent = 'Status unavailable';
+    if (!result.success) return;
+
+    const data = result.data;
+
+    const dot =
+      document.getElementById("statusDot");
+
+    const text =
+      document.getElementById("statusText");
+
+    dot.className =
+      "status-dot " +
+      (data.discord_status || "offline");
+
+    const labels = {
+      online: "Online",
+      idle: "Idle",
+      dnd: "Do Not Disturb",
+      offline: "Offline"
+    };
+
+    text.textContent =
+      labels[data.discord_status] || "Offline";
+
+    const spotify =
+      document.getElementById("spotifyWidget");
+
+    if (!data.listening_to_spotify || !data.spotify) {
+
+      spotify.innerHTML = `
+        <div class="spotify-meta">
+          <span class="spotify-label">
+            Spotify
+          </span>
+
+          <span class="spotify-offline">
+            Currently not listening
+          </span>
+        </div>
+      `;
+
+      return;
+    }
+
+    spotify.innerHTML = `
+      <img
+        src="${data.spotify.album_art_url}"
+        alt="Album Cover"
+        class="spotify-cover"
+      >
+
+      <div class="spotify-meta">
+
+        <span class="spotify-label">
+          Listening to Spotify
+        </span>
+
+        <span class="spotify-title">
+          ${data.spotify.song}
+        </span>
+
+        <span class="spotify-artist">
+          ${data.spotify.artist}
+        </span>
+
+      </div>
+    `;
+
+  } catch (err) {
+
+    console.error(err);
+
+    document.getElementById("spotifyWidget").innerHTML = `
+      <span class="spotify-offline">
+        Spotify unavailable
+      </span>
+    `;
   }
 }
 
-// Run immediately, then every 30 seconds
-fetchDiscordStatus();
-setInterval(fetchDiscordStatus, 30000);
+updatePresence();
+setInterval(updatePresence, 10000);
 </script>
 
 </body>
