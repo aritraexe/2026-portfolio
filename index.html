@@ -153,5 +153,43 @@ h1 {
   <span>Human Being</span>
 </footer>
 
+
+
+<script>
+const DISCORD_ID = '471288359269171201';
+const LANYARD_URL = `https://api.lanyard.rest/v1/users/${DISCORD_ID}`;
+
+const statusConfig = {
+  online:  { label: 'Online',         cls: 'online'  },
+  idle:    { label: 'Idle',           cls: 'idle'    },
+  dnd:     { label: 'Do Not Disturb', cls: 'dnd'     },
+  offline: { label: 'Offline',        cls: 'offline' },
+};
+
+async function fetchDiscordStatus() {
+  try {
+    const res = await fetch(LANYARD_URL);
+    const data = await res.json();
+    if (!data.success) throw new Error('Lanyard error');
+
+    const status = data.data.discord_status;
+    const cfg = statusConfig[status] || statusConfig.offline;
+
+    const dot  = document.getElementById('statusDot');
+    const text = document.getElementById('statusText');
+
+    dot.className = 'status-dot ' + cfg.cls;
+    text.textContent = cfg.label;
+  } catch (e) {
+    const text = document.getElementById('statusText');
+    if (text) text.textContent = 'Status unavailable';
+  }
+}
+
+// Run immediately, then every 30 seconds
+fetchDiscordStatus();
+setInterval(fetchDiscordStatus, 30000);
+</script>
+
 </body>
 </html>
