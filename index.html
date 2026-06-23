@@ -183,6 +183,58 @@ body{
   overflow-x: hidden;
 }
 
+.location-time-wrapper{
+  position:relative;
+  display:inline-block;
+}
+
+.location-link{
+  color:var(--text);
+  cursor:pointer;
+  border-bottom:1px dotted var(--border);
+}
+
+.time-tooltip{
+
+  position:absolute;
+  left:50%;
+  bottom:140%;
+
+  transform:translateX(-50%);
+
+  background:rgba(18,18,18,.95);
+
+  border:1px solid var(--border);
+
+  padding:.45rem .7rem;
+
+  border-radius:8px;
+
+  white-space:nowrap;
+
+  font-size:.75rem;
+
+  color:var(--text);
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.2s;
+
+  pointer-events:none;
+
+  z-index:10000;
+
+}
+
+.location-time-wrapper:hover .time-tooltip{
+
+  opacity:1;
+  visibility:visible;
+
+}
+
 @media (max-width: 600px) {
   .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
   .hero-avatar { width: 110px; height: 110px; }
@@ -262,7 +314,23 @@ body{
     I prefer working on products that solve real problems for real people. I'm comfortable with 
     ambiguity, and I know when to reach for a simple solution rather than an impressive one.
   </p>
-  <p class="about-text">Currently based in India. Open to remote work worldwide.</p>
+  <p class="about-text">
+  Currently based in
+  <span class="location-time-wrapper">
+
+    <span class="location-link">
+      India
+    </span>
+
+    <span class="time-tooltip" id="indiaTime">
+
+      Loading...
+
+    </span>
+
+  </span>.
+  Open to remote work worldwide.
+</p>
 </div>
 
 <footer>
@@ -485,6 +553,41 @@ wrapper.style.transform =
 animatePage();
 
 animatePage();
+</script>
+
+<script>
+
+function updateIndiaTime(){
+
+  const now =
+    new Date();
+
+  const indiaTime =
+    now.toLocaleTimeString(
+      "en-IN",
+      {
+        timeZone:
+          "Asia/Kolkata",
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+      }
+    );
+
+  document.getElementById(
+    "indiaTime"
+  ).textContent =
+    `IST • ${indiaTime}`;
+
+}
+
+updateIndiaTime();
+
+setInterval(
+  updateIndiaTime,
+  1000
+);
+
 </script>
 </body>
 </html>
