@@ -147,6 +147,11 @@ h1 {
   z-index:9999;
 }
 
+.page{
+  transition: transform 0.08s linear;
+  will-change: transform;
+}
+
 @media (max-width: 600px) {
   .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
   .hero-avatar { width: 110px; height: 110px; }
@@ -399,21 +404,31 @@ animate();
 </script>
 
 <script>
-const hero =
-  document.querySelector(".hero-inner");
+const page = document.querySelector(".page");
 
-document.addEventListener("mousemove", e => {
+let mouseX = 0;
+let mouseY = 0;
 
-  const x =
-    (e.clientX / window.innerWidth - 0.5);
+let currentX = 0;
+let currentY = 0;
 
-  const y =
-    (e.clientY / window.innerHeight - 0.5);
-
-  hero.style.transform =
-  `translate(${x * 15}px, ${y * 15}px)`;
-
+document.addEventListener("mousemove", (e) => {
+  mouseX = ((e.clientX / window.innerWidth) - 0.5) * 12;
+  mouseY = ((e.clientY / window.innerHeight) - 0.5) * 12;
 });
+
+function animatePage() {
+
+  currentX += (mouseX - currentX) * 0.08;
+  currentY += (mouseY - currentY) * 0.08;
+
+  page.style.transform =
+    `translate(${currentX}px, ${currentY}px)`;
+
+  requestAnimationFrame(animatePage);
+}
+
+animatePage();
 </script>
 </body>
 </html>
