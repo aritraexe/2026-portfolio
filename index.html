@@ -356,14 +356,34 @@ resize();
 window.addEventListener("resize", resize);
 
 const points=[];
-const maxPoints=40;
+const maxPoints=24;
+
+let lastMouseMove=Date.now();
+
 
 addEventListener("mousemove",e=>{
-points.push({x:e.clientX,y:e.clientY});
-if(points.length>maxPoints)points.shift();
+
+lastMouseMove=Date.now();
+
+points.push({
+x:e.clientX,
+y:e.clientY
+});
+
+if(points.length>maxPoints){
+points.shift();
+}
+
 });
 
 function trail(){
+  if(Date.now()-lastMouseMove>50){
+
+if(points.length>0){
+points.shift();
+}
+
+}
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
 if(points.length>2){
@@ -393,6 +413,16 @@ let tx=0,ty=0,cx=0,cy=0;
 document.addEventListener("mousemove", (e) => {
   mouseX = ((e.clientX / window.innerWidth) - 0.5) * 12;
   mouseY = ((e.clientY / window.innerHeight) - 0.5) * 12;
+});
+
+window.addEventListener("mouseout",e=>{
+
+if(!e.relatedTarget){
+
+points.length=0;
+
+}
+
 });
 
 function animatePage() {
