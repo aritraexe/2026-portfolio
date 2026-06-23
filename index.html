@@ -134,19 +134,16 @@ h1 {
   color:var(--muted);
 }
 
-#cursor{
-  position:fixed;
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:99999;
-
-  background:rgba(255,255,255,.08);
-
-  backdrop-filter:blur(8px);
-
-  transform:translate(-50%,-50%);
+.cursor-dot{
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.75);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
 }
 
 @media (max-width: 600px) {
@@ -157,7 +154,7 @@ h1 {
 <script src="shared.js" defer></script>
 </head>
 
-<div id="cursor"></div>
+<div id="cursor-trail"></div>
 
 <body>
 
@@ -335,30 +332,63 @@ setInterval(updatePresence, 10000);
 </script>
 
 <script>
-const cursor = document.getElementById("cursor");
+const dots = [];
+const DOT_COUNT = 18;
 
-let mouseX = 0;
-let mouseY = 0;
+for(let i = 0; i < DOT_COUNT; i++){
 
-let currentX = 0;
-let currentY = 0;
+  const dot = document.createElement("div");
 
-document.addEventListener("mousemove", e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
+  dot.classList.add("cursor-dot");
 
-function animateCursor() {
-  currentX += (mouseX - currentX) * 0.12;
-  currentY += (mouseY - currentY) * 0.12;
+  document.body.appendChild(dot);
 
-  cursor.style.left = currentX + "px";
-  cursor.style.top = currentY + "px";
-
-  requestAnimationFrame(animateCursor);
+  dots.push({
+    element: dot,
+    x: 0,
+    y: 0
+  });
 }
 
-animateCursor();
+let mouse = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2
+};
+
+window.addEventListener("mousemove", e => {
+
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+
+});
+
+function animateTrail(){
+
+  let x = mouse.x;
+  let y = mouse.y;
+
+  dots.forEach((dot,index)=>{
+
+    dot.x += (x - dot.x) * 0.35;
+    dot.y += (y - dot.y) * 0.35;
+
+    dot.element.style.left = dot.x + "px";
+    dot.element.style.top = dot.y + "px";
+
+    const scale =
+      (DOT_COUNT - index) / DOT_COUNT;
+
+    dot.element.style.transform =
+      `translate(-50%,-50%) scale(${scale})`;
+
+    x = dot.x;
+    y = dot.y;
+  });
+
+  requestAnimationFrame(animateTrail);
+}
+
+animateTrail();
 </script>
 </body>
 </html>
