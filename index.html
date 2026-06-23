@@ -134,6 +134,17 @@ h1 {
   color:var(--muted);
 }
 
+#cursor{
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(2px);
+}
 
 @media (max-width: 600px) {
   .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
@@ -142,6 +153,9 @@ h1 {
 </style>
 <script src="shared.js" defer></script>
 </head>
+
+<div id="cursor"></div>
+
 <body>
 
 <nav>
@@ -317,5 +331,31 @@ updatePresence();
 setInterval(updatePresence, 10000);
 </script>
 
+<script>
+const cursor = document.getElementById("cursor");
+
+let mouseX = 0;
+let mouseY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+document.addEventListener("mousemove", e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animateCursor() {
+  currentX += (mouseX - currentX) * 0.12;
+  currentY += (mouseY - currentY) * 0.12;
+
+  cursor.style.left = currentX + "px";
+  cursor.style.top = currentY + "px";
+
+  requestAnimationFrame(animateCursor);
+}
+
+animateCursor();
+</script>
 </body>
 </html>
