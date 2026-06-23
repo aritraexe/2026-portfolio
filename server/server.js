@@ -3,10 +3,12 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../')));
 
 async function getAccessToken() {
 
@@ -74,4 +76,6 @@ app.get('/spotify', async (req, res) => {
 
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
