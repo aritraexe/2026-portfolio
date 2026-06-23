@@ -8,6 +8,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="shared.css"/>
 <style>
+/* Theme colors: light (default) and dark */
+:root {
+  --bg: #ffffff;
+  --bg2: #ffffff;
+  --text: #000000;
+  --muted: #333333;
+  --border: #e6e6e6;
+}
+
+[data-theme="dark"] {
+  --bg: #0b0b0b;
+  --bg2: #0f0f0f;
+  --text: #ffffff;
+  --muted: #bfbfbf;
+  --border: #222222;
+}
+
+/* Apply text color globally */
+body, h1, p, a, span, li { color: var(--text); }
+
 .hero-inner {
   display: flex;
   align-items: center;
