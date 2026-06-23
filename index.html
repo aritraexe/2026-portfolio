@@ -356,32 +356,49 @@ resize();
 window.addEventListener("resize", resize);
 
 const points = [];
-const maxPoints = 40;
+const maxPoints = 24;
+
+let lastMoveTime = Date.now();
 
 window.addEventListener("mousemove", e => {
+
+  lastMoveTime = Date.now();
+
   points.push({
     x: e.clientX,
     y: e.clientY
   });
 
-  if (points.length > maxPoints) {
+  if(points.length > maxPoints){
     points.shift();
   }
+
+});
+
+window.addEventListener("mouseleave", () => {
+
+  points.length = 0;
+
 });
 
 function animate() {
 
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(Date.now() - lastMoveTime > 16){
 
-  if(points.length > 1){
+    if(points.length > 0){
 
-    ctx.beginPath();
+      points.shift();
 
-    ctx.moveTo(
-      points[0].x,
-      points[0].y
-    );
+    }
 
+  }
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
     for(let i = 1; i < points.length - 2; i++){
 
       const xc = (points[i].x + points[i + 1].x) / 2;
