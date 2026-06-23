@@ -399,6 +399,7 @@ function animate() {
     canvas.width,
     canvas.height
   );
+
     for(let i = 1; i < points.length - 2; i++){
 
       const xc = (points[i].x + points[i + 1].x) / 2;
@@ -423,9 +424,9 @@ function animate() {
     ctx.lineJoin = "round";
 
     ctx.stroke();
-  }
 
   requestAnimationFrame(animate);
+
 }
 
 animate();
