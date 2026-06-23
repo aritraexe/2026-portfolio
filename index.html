@@ -441,6 +441,13 @@ function animatePage(){
 
   wrapper.style.transform =
     `translate(${currentX}px, ${currentY}px)`;
+    
+  const jitter =
+  Math.sin(Date.now() * 0.004) * 0.4;
+
+wrapper.style.transform =
+  `translate(${currentX + jitter}px,
+             ${currentY + jitter}px)`;
 
   requestAnimationFrame(
     animatePage
