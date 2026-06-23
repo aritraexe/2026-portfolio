@@ -40,7 +40,19 @@
   font-size: 0.7rem; color: var(--muted);
   margin-bottom: 1.6rem;
 }
-.status-dot { width: 6px; height: 6px; background: #4caf7d; border-radius: 50%; }
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.4s;
+}
+.status-dot.online  { background: #4caf7d; }
+.status-dot.idle    { background: #f0a732; }
+.status-dot.dnd     { background: #e05252; }
+.status-dot.offline { background: #555350; }
+/* idle pulse */
+.status-dot.idle { animation: idlePulse 2s ease-in-out infinite; }
+@keyframes idlePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 h1 {
   font-size: clamp(1.6rem, 3.5vw, 2rem);
   font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
