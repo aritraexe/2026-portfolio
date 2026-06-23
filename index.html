@@ -582,9 +582,7 @@ animatePage();
 function updateIndiaTime() {
 
   const el =
-    document.getElementById(
-      "indiaTimeTooltip"
-    );
+    document.getElementById("indiaTime");
 
   if (!el) return;
 
@@ -601,23 +599,38 @@ function updateIndiaTime() {
       }
     );
 
+  const date =
+    now.toLocaleDateString(
+      "en-IN",
+      {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      }
+    );
+
   el.innerHTML = `
-    India<br>
-    ${time}<br>
-    UTC +5:30
+    <span class="tooltip-location">
+      India
+    </span>
+
+    <span class="tooltip-time">
+      ${time}
+    </span>
+
+    <span class="tooltip-date">
+      ${date}
+    </span>
+
+    <span class="tooltip-zone">
+      UTC +5:30 (IST)
+    </span>
   `;
 }
 
-window.onload = () => {
-
-  updateIndiaTime();
-
-  setInterval(
-    updateIndiaTime,
-    1000
-  );
-
-};
+updateIndiaTime();
+setInterval(updateIndiaTime, 1000);
 </script>
 </body>
 </html>
