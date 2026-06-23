@@ -47,22 +47,24 @@ nav {
 }
 .nav-links a:hover { color: var(--text); }
 .nav-links a.active { color: var(--text); }
-.toggle {
-  width: 38px; height: 21px;
-  background: var(--border); border-radius: 11px;
-  border: 1px solid var(--subtle);
-  cursor: pointer; position: relative;
-  transition: background 0.25s; flex-shrink: 0;
+.theme-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
   outline: none;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
 }
-.toggle::after {
-  content: ''; position: absolute;
-  top: 2px; left: 2px;
-  width: 15px; height: 15px;
-  background: var(--muted); border-radius: 50%;
-  transition: transform 0.22s, background 0.22s;
-}
-[data-theme="light"] .toggle::after { transform: translateX(17px); background: var(--text); }
+.theme-btn:hover { border-color: var(--muted); color: var(--text); }
+.theme-btn svg { display: block; }
 
 /* PAGE WRAPPER */
 .page {
