@@ -1,44 +1,164 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Xenon — Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared.css">
-
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="shared.css"/>
 <style>
-.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:3rem}
-.hero-text{flex:1}
-.hero-avatar{width:200px;height:200px;border-radius:50%;overflow:hidden;border:1px solid var(--border);flex-shrink:0}
-.hero-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+.hero-inner{
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+.hero-text { flex: 1; min-width: 0; }
 
-.hero-status{display:inline-flex;align-items:center;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted)}
-.status-dot{width:7px;height:7px;border-radius:50%}
-.status-dot.online{background:#4caf7d}
-.status-dot.idle{background:#f0a732}
-.status-dot.dnd{background:#e05252}
-.status-dot.offline{background:#555350}
+/* AVATAR */
+.hero-avatar {
+  flex-shrink: 0;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg2);
+  position: relative;
+}
+.hero-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
 
-.presence-stack{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.6rem}
+/* HERO TEXT */
+.hero-status {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; color: var(--muted);
+  margin-bottom: 1.6rem;
+}
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.4s;
+}
+.status-dot.online  { background: #4caf7d; }
+.status-dot.idle    { background: #f0a732; }
+.status-dot.dnd     { background: #e05252; }
+.status-dot.offline { background: #555350; }
+/* idle pulse */
+.status-dot.idle { animation: idlePulse 2s ease-in-out infinite; }
+@keyframes idlePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2rem);
+  font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+  margin-bottom: 1.1rem;
+}
+.hero-desc {
+  font-size: 0.9rem; color: var(--muted);
+  line-height: 1.85; max-width: 440px; margin-bottom: 2rem;
+}
+.hero-nav-links { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.hero-nav-link {
+  font-size: 0.82rem; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s, border-color 0.2s;
+}
+.hero-nav-link:hover { color: var(--text); border-color: var(--muted); }
 
-.spotify-widget{display:flex;align-items:center;gap:.8rem;min-height:50px}
-.spotify-cover{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid var(--border)}
-.spotify-meta{display:flex;flex-direction:column}
-.spotify-label,.spotify-artist,.spotify-offline{font-family:'IBM Plex Mono',monospace;color:var(--muted)}
-.spotify-label{font-size:.65rem}
-.spotify-artist,.spotify-offline{font-size:.72rem}
-.spotify-title{font-size:.82rem;color:var(--text)}
+/* ABOUT */
+.about-text { font-size: 0.92rem; color: var(--muted); line-height: 1.9; }
+.about-text + .about-text { margin-top: 0.8rem; }
+.skills-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.skill-item {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.55rem; border-radius: 2px;
+}
 
-.hero-desc{font-size:.9rem;color:var(--muted);line-height:1.85;max-width:440px;margin-bottom:2rem}
+/* PRESENCE */
 
-#trail-canvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
-#site-wrapper{will-change:transform}
+.presence-stack{
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  margin-bottom:1.6rem;
+}
 
-@media(max-width:600px){
-.hero-inner{flex-direction:column-reverse;align-items:flex-start}
-.hero-avatar{width:110px;height:110px}
+.spotify-widget{
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  min-height:50px;
+}
+
+.spotify-cover{
+  width:48px;
+  height:48px;
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid var(--border);
+}
+
+.spotify-meta{
+  display:flex;
+  flex-direction:column;
+}
+
+.spotify-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.65rem;
+  color:var(--muted);
+}
+
+.spotify-title{
+  font-size:.82rem;
+  color:var(--text);
+  line-height:1.3;
+}
+
+.spotify-artist{
+  font-size:.72rem;
+  color:var(--muted);
+}
+
+.spotify-offline{
+  font-size:.75rem;
+  color:var(--muted);
+}
+
+#trail-canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:9999;
+}
+
+.page{
+  transition: transform 0.08s linear;
+  will-change: transform;
+}
+
+#site-wrapper{
+  will-change: transform;
+}
+
+@media (max-width: 600px) {
+  .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
+  .hero-avatar { width: 110px; height: 110px; }
 }
 </style>
 <script src="shared.js" defer></script>
@@ -50,149 +170,276 @@
 <div id="site-wrapper">
 
 <nav>
-<a class="nav-name" href="index.html">Xenon</a>
-<div class="nav-right">
-<ul class="nav-links">
-<li><a href="work.html">Work</a></li>
-<li><a href="blog.html">Writing</a></li>
-<li><a href="contact.html">Contact</a></li>
-</ul>
-<button class="theme-btn" onclick="toggleTheme()"></button>
-</div>
+  <a class="nav-name" href="index.html">Xenon</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="blog.html">Writing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="theme-btn" onclick="toggleTheme()"></button>
+  </div>
 </nav>
 
 <div class="page">
-<div class="hero-inner">
+  <div class="hero-inner">
 
-<div class="hero-text">
+    <div class="hero-text">
+      <!-- Discord presence via Lanyard — replace YOUR_DISCORD_ID below -->
+  <div class="presence-stack">
 
-<div class="presence-stack">
-<div class="hero-status">
-<span class="status-dot" id="statusDot"></span>
-<span id="statusText">Connecting...</span>
-</div>
+  <div class="hero-status" id="discordStatus">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Connecting...</span>
+  </div>
 
-<div id="spotifyWidget" class="spotify-widget">
-<span class="spotify-offline">Loading Spotify...</span>
-</div>
-</div>
-
-<h1>Xenon.</h1>
-
-<p class="hero-desc">
-Full-stack developer focused on web and mobile applications.
-Clean code, honest interfaces, and software that holds up over time.
-</p>
+  <div id="spotifyWidget" class="spotify-widget">
+    <span class="spotify-offline">
+      Loading Spotify...
+    </span>
+  </div>
 
 </div>
+      <h1>Xenon.</h1>
+      <p class="hero-desc">
+        Full-stack developer focused on web and mobile applications.
+        Clean code, honest interfaces, and software that holds up over time.
+      </p>
+      <div class="hero-nav-links">
+        <a class="hero-nav-link" href="work.html">Selected work</a>
+        <a class="hero-nav-link" href="blog.html">Writing</a>
+        <a class="hero-nav-link" href="contact.html">Get in touch</a>
+        <a class="hero-nav-link" href="#" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
 
-<div class="hero-avatar">
-<img src="images/avatar.jpg" alt="Avatar">
-</div>
+    <!--
+      AVATAR — replace "images/avatar.jpg" with your own photo filename.
+      Put your image inside an "images/" folder next to index.html.
+      Any format works: .jpg, .png, .webp
+    -->
+    <div class="hero-avatar">
+      <img src="images/avatar.jpg" alt="Your Name"/>
+    </div>
 
-</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="section-label">About</p>
+  <p class="about-text">
+    I love researching different topics, especially the ones that spark enough curiosity to send me down a rabbit hole and eventually build something around them.
+    I develop websites and sometimes Android applications as well.
+  </p>
+  <p class="about-text">
+    I prefer working on products that solve real problems for real people. I'm comfortable with 
+    ambiguity, and I know when to reach for a simple solution rather than an impressive one.
+  </p>
+  <p class="about-text">Currently based in India. Open to remote work worldwide.</p>
 </div>
 
 <footer>
-<span>© 2026 Xenon</span>
-<span>Human Being</span>
+  <span>© 2026 Xenon</span>
+  <span>Human Being</span>
 </footer>
 
 </div>
 
 <script>
-const DISCORD_ID="471288359269171201";
+const DISCORD_ID = "471288359269171201";
 
-async function updatePresence(){
-try{
-const response=await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-const result=await response.json();
-if(!result.success)return;
+async function updatePresence() {
 
-const data=result.data;
+  try {
 
-document.getElementById("statusDot").className="status-dot "+(data.discord_status||"offline");
+    const response =
+      await fetch(
+        `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+      );
 
-const labels={online:"Online",idle:"Idle",dnd:"Do Not Disturb",offline:"Offline"};
-document.getElementById("statusText").textContent=labels[data.discord_status]||"Offline";
+    const result = await response.json();
 
-const spotify=document.getElementById("spotifyWidget");
+    if (!result.success) return;
 
-if(!data.listening_to_spotify||!data.spotify){
-spotify.innerHTML='<div class="spotify-meta"><span class="spotify-label">Spotify</span><span class="spotify-offline">Currently not listening</span></div>';
-return;
+    const data = result.data;
+
+    const dot =
+      document.getElementById("statusDot");
+
+    const text =
+      document.getElementById("statusText");
+
+    dot.className =
+      "status-dot " +
+      (data.discord_status || "offline");
+
+    const labels = {
+      online: "Online",
+      idle: "Idle",
+      dnd: "Do Not Disturb",
+      offline: "Offline"
+    };
+
+    text.textContent =
+      labels[data.discord_status] || "Offline";
+
+    const spotify =
+      document.getElementById("spotifyWidget");
+
+    if (!data.listening_to_spotify || !data.spotify) {
+
+      spotify.innerHTML = `
+        <div class="spotify-meta">
+          <span class="spotify-label">
+            Spotify
+          </span>
+
+          <span class="spotify-offline">
+            Currently not listening
+          </span>
+        </div>
+      `;
+
+      return;
+    }
+
+    spotify.innerHTML = `
+      <img
+        src="${data.spotify.album_art_url}"
+        alt="Album Cover"
+        class="spotify-cover"
+      >
+
+      <div class="spotify-meta">
+
+        <span class="spotify-label">
+          Listening to Spotify
+        </span>
+
+        <span class="spotify-title">
+          ${data.spotify.song}
+        </span>
+
+        <span class="spotify-artist">
+          ${data.spotify.artist}
+        </span>
+
+      </div>
+    `;
+
+  } catch (err) {
+
+    console.error(err);
+
+    document.getElementById("spotifyWidget").innerHTML = `
+      <span class="spotify-offline">
+        Spotify unavailable
+      </span>
+    `;
+  }
 }
 
-spotify.innerHTML=`
-<img src="${data.spotify.album_art_url}" class="spotify-cover">
-<div class="spotify-meta">
-<span class="spotify-label">Listening to Spotify</span>
-<span class="spotify-title">${data.spotify.song}</span>
-<span class="spotify-artist">${data.spotify.artist}</span>
-</div>`;
-}catch(e){console.error(e);}
-}
 updatePresence();
-setInterval(updatePresence,10000);
-
-const canvas=document.getElementById("trail-canvas");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-}
-resize();
-addEventListener("resize",resize);
-
-const points=[];
-const maxPoints=40;
-
-addEventListener("mousemove",e=>{
-points.push({x:e.clientX,y:e.clientY});
-if(points.length>maxPoints)points.shift();
-});
-
-function trail(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-if(points.length>2){
-ctx.beginPath();
-ctx.moveTo(points[0].x,points[0].y);
-
-for(let i=1;i<points.length-2;i++){
-const xc=(points[i].x+points[i+1].x)/2;
-const yc=(points[i].y+points[i+1].y)/2;
-ctx.quadraticCurveTo(points[i].x,points[i].y,xc,yc);
-}
-
-ctx.strokeStyle="rgba(0,220,255,.22)";
-ctx.lineWidth=2;
-ctx.shadowBlur=12;
-ctx.shadowColor="#00dcff";
-ctx.lineCap="round";
-ctx.stroke();
-}
-requestAnimationFrame(trail);
-}
-trail();
-
-const wrapper=document.getElementById("site-wrapper");
-let tx=0,ty=0,cx=0,cy=0;
-
-addEventListener("mousemove",e=>{
-tx=((e.clientX/innerWidth)-0.5)*6;
-ty=((e.clientY/innerHeight)-0.5)*6;
-});
-
-function floatPage(){
-cx+=(tx-cx)*0.05;
-cy+=(ty-cy)*0.05;
-wrapper.style.transform=`translate(${cx}px,${cy}px)`;
-requestAnimationFrame(floatPage);
-}
-floatPage();
+setInterval(updatePresence, 10000);
 </script>
 
+<script>
+const canvas = document.getElementById("trail-canvas");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+resize();
+window.addEventListener("resize", resize);
+
+const points = [];
+const maxPoints = 40;
+
+window.addEventListener("mousemove", e => {
+  points.push({
+    x: e.clientX,
+    y: e.clientY
+  });
+
+  if (points.length > maxPoints) {
+    points.shift();
+  }
+});
+
+function animate() {
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  if(points.length > 1){
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      points[0].x,
+      points[0].y
+    );
+
+    for(let i = 1; i < points.length - 2; i++){
+
+      const xc = (points[i].x + points[i + 1].x) / 2;
+      const yc = (points[i].y + points[i + 1].y) / 2;
+
+      ctx.quadraticCurveTo(
+        points[i].x,
+        points[i].y,
+        xc,
+        yc
+      );
+
+    }
+
+    ctx.strokeStyle =
+      "rgba(0,220,255,0.22)";
+
+    ctx.lineWidth = 2;
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = "#00dcff";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    ctx.stroke();
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+<script>
+const page = document.getElementById("site-wrapper");
+
+let mouseX = 0;
+let mouseY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = ((e.clientX / window.innerWidth) - 0.5) * 12;
+  mouseY = ((e.clientY / window.innerHeight) - 0.5) * 12;
+});
+
+function animatePage() {
+
+  currentX += (mouseX - currentX) * 0.08;
+  currentY += (mouseY - currentY) * 0.08;
+
+  page.style.transform =
+    `translate(${currentX}px, ${currentY}px)`;
+
+  requestAnimationFrame(animatePage);
+}
+
+animatePage();
+</script>
 </body>
 </html>
