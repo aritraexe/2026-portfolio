@@ -355,91 +355,40 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
-const points = [];
-const maxPoints = 24;
+const points=[];
+const maxPoints=40;
 
-let lastMoveTime = Date.now();
-
-window.addEventListener("mousemove", e => {
-
-  lastMoveTime = Date.now();
-
-  points.push({
-    x: e.clientX,
-    y: e.clientY
-  });
-
-  if(points.length > maxPoints){
-    points.shift();
-  }
-
+addEventListener("mousemove",e=>{
+points.push({x:e.clientX,y:e.clientY});
+if(points.length>maxPoints)points.shift();
 });
 
-window.addEventListener("mouseleave", () => {
+function trail(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  points.length = 0;
+if(points.length>2){
+ctx.beginPath();
+ctx.moveTo(points[0].x,points[0].y);
 
-});
-
-function animate() {
-
-  if(Date.now() - lastMoveTime > 16){
-
-    if(points.length > 0){
-
-      points.shift();
-
-    }
-
-  }
-
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-    for(let i = 1; i < points.length - 2; i++){
-
-      const xc = (points[i].x + points[i + 1].x) / 2;
-      const yc = (points[i].y + points[i + 1].y) / 2;
-
-      ctx.quadraticCurveTo(
-        points[i].x,
-        points[i].y,
-        xc,
-        yc
-      );
-
-    }
-
-    ctx.strokeStyle =
-      "rgba(0,220,255,0.22)";
-
-    ctx.lineWidth = 2;
-    ctx.shadowBlur = 12;
-    ctx.shadowColor = "#00dcff";
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-
-    ctx.stroke();
-
-  requestAnimationFrame(animate);
-
+for(let i=1;i<points.length-2;i++){
+const xc=(points[i].x+points[i+1].x)/2;
+const yc=(points[i].y+points[i+1].y)/2;
+ctx.quadraticCurveTo(points[i].x,points[i].y,xc,yc);
 }
 
-animate();
-</script>
+ctx.strokeStyle="rgba(0,220,255,.22)";
+ctx.lineWidth=2;
+ctx.shadowBlur=12;
+ctx.shadowColor="#00dcff";
+ctx.lineCap="round";
+ctx.stroke();
+}
+requestAnimationFrame(trail);
+}
+trail();
 
-<script>
-const page = document.getElementById("site-wrapper");
-
-let mouseX = 0;
-let mouseY = 0;
-
-let currentX = 0;
-let currentY = 0;
+const wrapper=document.getElementById("site-wrapper");
+let tx=0,ty=0,cx=0,cy=0;
 
 document.addEventListener("mousemove", (e) => {
   mouseX = ((e.clientX / window.innerWidth) - 0.5) * 12;
