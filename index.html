@@ -156,6 +156,11 @@ h1 {
   will-change: transform;
 }
 
+html,
+body{
+  overflow-x: hidden;
+}
+
 @media (max-width: 600px) {
   .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
   .hero-avatar { width: 110px; height: 110px; }
@@ -422,11 +427,11 @@ document.addEventListener(
 
     targetX =
       ((e.clientX /
-      window.innerWidth) - 0.5) * 10;
+      window.innerWidth) - 0.5) * 4;
 
     targetY =
       ((e.clientY /
-      window.innerHeight) - 0.5) * 10;
+      window.innerHeight) - 0.5) * 4;
 
   }
 );
