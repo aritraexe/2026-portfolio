@@ -579,60 +579,45 @@ animatePage();
 </script>
 
 <script>
+function updateIndiaTime() {
 
-window.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    function updateIndiaTooltip(){
-
-      const tooltip =
-        document.getElementById(
-          "indiaTimeTooltip"
-        );
-
-      if(!tooltip) return;
-
-      const now =
-        new Date();
-
-      const time =
-        now.toLocaleTimeString(
-          "en-IN",
-          {
-            timeZone:
-              "Asia/Kolkata",
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit"
-          }
-        );
-
-      tooltip.innerHTML = `
-        <span class="tooltip-location">
-          India
-        </span>
-
-        <span class="tooltip-time">
-          ${time}
-        </span>
-
-        <span class="tooltip-zone">
-          UTC +5:30 (IST)
-        </span>
-      `;
-    }
-
-    updateIndiaTooltip();
-
-    setInterval(
-      updateIndiaTooltip,
-      1000
+  const el =
+    document.getElementById(
+      "indiaTimeTooltip"
     );
 
-  }
-);
+  if (!el) return;
 
+  const now = new Date();
+
+  const time =
+    now.toLocaleTimeString(
+      "en-IN",
+      {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      }
+    );
+
+  el.innerHTML = `
+    India<br>
+    ${time}<br>
+    UTC +5:30
+  `;
+}
+
+window.onload = () => {
+
+  updateIndiaTime();
+
+  setInterval(
+    updateIndiaTime,
+    1000
+  );
+
+};
 </script>
 </body>
 </html>
