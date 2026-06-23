@@ -580,61 +580,57 @@ animatePage();
 
 <script>
 
-function updateIndiaTooltip(){
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-  const now = new Date();
+    function updateIndiaTooltip(){
 
-  const time =
-    now.toLocaleTimeString(
-      "en-IN",
-      {
-        timeZone:"Asia/Kolkata",
-        hour:"2-digit",
-        minute:"2-digit",
-        second:"2-digit"
-      }
+      const tooltip =
+        document.getElementById(
+          "indiaTimeTooltip"
+        );
+
+      if(!tooltip) return;
+
+      const now =
+        new Date();
+
+      const time =
+        now.toLocaleTimeString(
+          "en-IN",
+          {
+            timeZone:
+              "Asia/Kolkata",
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit"
+          }
+        );
+
+      tooltip.innerHTML = `
+        <span class="tooltip-location">
+          India
+        </span>
+
+        <span class="tooltip-time">
+          ${time}
+        </span>
+
+        <span class="tooltip-zone">
+          UTC +5:30 (IST)
+        </span>
+      `;
+    }
+
+    updateIndiaTooltip();
+
+    setInterval(
+      updateIndiaTooltip,
+      1000
     );
 
-  const date =
-    now.toLocaleDateString(
-      "en-IN",
-      {
-        timeZone:"Asia/Kolkata",
-        day:"numeric",
-        month:"short",
-        year:"numeric"
-      }
-    );
-
-  const tooltip =
-    document.getElementById(
-      "indiaTimeTooltip"
-    );
-
-  tooltip.innerHTML = `
-    <span class="tooltip-location">
-      India
-    </span>
-
-    <span class="tooltip-time">
-      ${time}
-    </span>
-
-    <span class="tooltip-date">
-      ${date}
-    </span>
-
-    <span class="tooltip-zone">
-      UTC +5:30 (IST)
-    </span>
-  `;
-}
-
-updateIndiaTooltip();
-
-setInterval(
-  updateIndiaTooltip,
-  1000
+  }
 );
 
 </script>
