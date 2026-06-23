@@ -377,9 +377,11 @@ function animate() {
     }
 
     ctx.strokeStyle =
-      "rgba(0,255,255,0.25)";
+      "rgba(0,220,255,0.3)";
 
     ctx.lineWidth = 2;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "#00ffff";
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
