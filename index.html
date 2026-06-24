@@ -297,8 +297,8 @@ body{
   <a class="nav-name" href="index.html">Xenon</a>
   <div class="nav-right">
     <ul class="nav-links">
-      <li><a href="work.html">Work</a></li>
       <li><a href="blog.html">Writing</a></li>
+      <li><a href="work.html">Work</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
     <button class="theme-btn" onclick="toggleTheme()"></button>
@@ -334,10 +334,10 @@ body{
       </p>
 
       <div class="hero-nav-links">
-        <a class="hero-nav-link" href="work.html">Selected work</a>
         <a class="hero-nav-link" href="blog.html">Writing</a>
+        <a class="hero-nav-link" href="work.html">Selected work</a>
         <a class="hero-nav-link" href="contact.html">Get in touch</a>
-        <a class="hero-nav-link" href="#" target="_blank">GitHub ↗</a>
+        <a class="hero-nav-link" href="https://github.com/xenoncommits" target="_blank">GitHub ↗</a>
       </div>
     </div>
 
@@ -500,7 +500,7 @@ resize();
 window.addEventListener("resize", resize);
 
 const points=[];
-const maxPoints=24;
+const maxPoints=14;
 
 let lastMouseMove=Date.now();
 
@@ -540,9 +540,9 @@ const yc=(points[i].y+points[i+1].y)/2;
 ctx.quadraticCurveTo(points[i].x,points[i].y,xc,yc);
 }
 
-ctx.strokeStyle = "rgba(0,140,255,.25)";
-ctx.shadowColor = "#008cff";
-ctx.lineWidth=3;
+ctx.strokeStyle = "rgba(74,144,255,0.5)";
+ctx.shadowColor = "#4A90FF";
+ctx.lineWidth=4;
 ctx.shadowBlur=12;
 ctx.lineCap="round";
 ctx.stroke();
