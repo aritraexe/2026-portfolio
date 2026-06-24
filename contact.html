@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Contact — Xenon</title>
+<title>Contact — Your Name</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="shared.css"/>
 <style>
 .contact-intro { font-size: 0.92rem; color: var(--muted); line-height: 1.85; margin-bottom: 2rem; max-width: 460px; }
@@ -59,14 +59,14 @@
 <body>
 
 <nav>
-  <a class="nav-name" href="index.html">Xenon</a>
+  <a class="nav-name" href="index.html">Your Name</a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="work.html">Work</a></li>
       <li><a href="blog.html">Writing</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-    <button class="toggle" aria-label="Toggle theme" onclick="toggleTheme()"></button>
+    <button class="theme-btn" onclick="toggleTheme()"></button>
   </div>
 </nav>
 
@@ -100,13 +100,17 @@
   </div>
 
   <p class="form-section-label">Or send a message</p>
-  <div class="contact-form">
+  <div class="contact-form" id="contactForm">
     <div class="form-row">
-      <div class="form-field"><label>Name</label><input type="text" placeholder="Your name"/></div>
-      <div class="form-field"><label>Email</label><input type="email" placeholder="you@example.com"/></div>
+      <div class="form-field"><label>Name</label><input type="text" id="fname" placeholder="Your name" required/></div>
+      <div class="form-field"><label>Email</label><input type="email" id="femail" placeholder="you@example.com" required/></div>
     </div>
-    <div class="form-field"><label>Message</label><textarea placeholder="What are you working on?"></textarea></div>
-    <button class="form-send" onclick="handleSend(this)">Send message</button>
+    <div class="form-field"><label>Message</label><textarea id="fmessage" placeholder="What are you working on?" required></textarea></div>
+    <div id="formError" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:#e05252;margin-top:-0.2rem;"></div>
+    <button class="form-send" id="formBtn" onclick="handleSend()">Send message</button>
+  </div>
+  <div id="formSuccess" style="display:none;padding:1.4rem;border:1px solid var(--border);border-radius:4px;font-size:0.88rem;color:var(--muted);line-height:1.7;">
+    ✓ Message sent — I'll get back to you soon.
   </div>
 </div>
 
@@ -116,12 +120,47 @@
 </footer>
 
 <script>
-function handleSend(btn) {
-  btn.textContent = 'Sending…'; btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'Sent ✓';
-    setTimeout(() => { btn.textContent = 'Send message'; btn.disabled = false; }, 2500);
-  }, 1000);
+async function handleSend() {
+  const btn     = document.getElementById('formBtn');
+  const errBox  = document.getElementById('formError');
+  const name    = document.getElementById('fname').value.trim();
+  const email   = document.getElementById('femail').value.trim();
+  const message = document.getElementById('fmessage').value.trim();
+
+  errBox.style.display = 'none';
+
+  if (!name || !email || !message) {
+    errBox.textContent = 'All fields are required.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Something went wrong.');
+    }
+
+    // Success — hide form, show confirmation
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+
+  } catch (err) {
+    errBox.textContent = err.message || 'Failed to send. Please try again.';
+    errBox.style.display = 'block';
+    btn.textContent = 'Send message';
+    btn.disabled = false;
+  }
 }
 </script>
 </body>
