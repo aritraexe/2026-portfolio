@@ -6,6 +6,12 @@
 <title>Xenon — Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<script>
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
 <link rel="stylesheet" href="shared.css"/>
 <style>
 /* Theme colors: light (default) and dark */
@@ -229,11 +235,11 @@ body{
   z-index:10000;
 }
 
-[data-theme="light"] .time-tooltip {
-  background: #f3f2ef;
-  color: #1a1917;
-  border-color: #e0deda;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+.location-time-wrapper:hover .time-tooltip{
+
+  opacity:1;
+  visibility:visible;
+
 }
 
 .location-time-wrapper:hover .time-tooltip{
