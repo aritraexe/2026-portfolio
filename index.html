@@ -204,6 +204,7 @@ body{
   transform:translateX(-50%);
 
   background:var(--bg2);
+  color:var(--text);
 
   border:1px solid var(--border);
 
@@ -226,6 +227,13 @@ body{
   pointer-events:none;
 
   z-index:10000;
+}
+
+[data-theme="light"] .time-tooltip {
+  background: #f3f2ef;
+  color: #1a1917;
+  border-color: #e0deda;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 .location-time-wrapper:hover .time-tooltip{
