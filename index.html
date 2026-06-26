@@ -694,19 +694,6 @@ function drawGlobe() {
     gctx.beginPath(); gctx.arc(p.sx,p.sy,s,0,Math.PI*2);
     gctx.fillStyle='#60a5fa'; gctx.fill();
   });
-  // home pin — India
-  const home=gRot(ll2xyz(22.86,88.52));
-  if(home.z>=0){
-    const p=gProj(home);
-    const pulse=gctx.createRadialGradient(p.sx,p.sy,0,p.sx,p.sy,13);
-    pulse.addColorStop(0,'rgba(76,175,61,0.3)'); pulse.addColorStop(1,'transparent');
-    gctx.beginPath(); gctx.arc(p.sx,p.sy,13,0,Math.PI*2);
-    gctx.fillStyle=pulse; gctx.fill();
-    gctx.beginPath(); gctx.arc(p.sx,p.sy,5,0,Math.PI*2);
-    gctx.fillStyle='#4caf7d'; gctx.fill();
-    gctx.beginPath(); gctx.arc(p.sx,p.sy,2,0,Math.PI*2);
-    gctx.fillStyle='#fff'; gctx.fill();
-  }
   // edge
   gctx.beginPath(); gctx.arc(gCX,gCY,gR,0,Math.PI*2);
   gctx.strokeStyle=dark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.08)';
