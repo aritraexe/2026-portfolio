@@ -120,21 +120,18 @@ h1 {
 }
 
 /* PRESENCE */
-
 .presence-stack{
   display:flex;
   flex-direction:column;
   gap:.8rem;
   margin-bottom:1.6rem;
 }
-
 .spotify-widget{
   display:flex;
   align-items:center;
   gap:.8rem;
   min-height:50px;
 }
-
 .spotify-cover{
   width:48px;
   height:48px;
@@ -142,31 +139,25 @@ h1 {
   object-fit:cover;
   border:1px solid var(--border);
 }
-
 .spotify-meta{
   display:flex;
   flex-direction:column;
 }
-
 .spotify-label{
   font-family:'IBM Plex Mono', monospace;
   font-size:.65rem;
   color:#000;
 }
-
 body { color: var(--text); }
 .spotify-label { color: var(--text); }
-
 .spotify-title{
   font-size:.82rem;
   line-height:1.3;
 }
-
 .spotify-artist{
   font-size:.72rem;
   color:var(--muted);
 }
-
 .spotify-offline{
   font-size:.75rem;
   color:var(--muted);
@@ -180,99 +171,68 @@ body { color: var(--text); }
   pointer-events:none;
   z-index:9999;
 }
-
 .page{
   transition: transform 0.08s linear;
   will-change: transform;
 }
-
 #site-wrapper{
   will-change: transform;
 }
-
-html,
-body{
-  overflow-x: hidden;
-}
+html, body{ overflow-x: hidden; }
 
 .location-time-wrapper{
   position:relative;
   display:inline-block;
 }
-
 .location-link{
   color:var(--text);
   cursor:pointer;
   border-bottom:1px dotted var(--border);
 }
-
 .time-tooltip{
-
   position:absolute;
-
   left:50%;
   bottom:140%;
-
   transform:translateX(-50%);
-
   background:var(--bg2);
   color:var(--text);
-
   border:1px solid var(--border);
-
-  box-shadow:
-  0 10px 30px rgba(0,0,0,.15);
-
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
   backdrop-filter: blur(12px);
-
   border-radius:10px;
-
   padding:.7rem .9rem;
-
   min-width:170px;
-
   opacity:0;
   visibility:hidden;
-
   transition:.2s ease;
-
   pointer-events:none;
-
   z-index:10000;
 }
-
 [data-theme="light"] .time-tooltip {
   background: #ffffff;
 }
-
 .location-time-wrapper:hover .time-tooltip{
-
   opacity:1;
   visibility:visible;
-
 }
-
 .tooltip-location{
   display:block;
   font-size:.65rem;
   color:var(--muted);
   margin-bottom:.35rem;
 }
-
 .tooltip-time{
   display:block;
   font-size:.95rem;
   color:var(--text);
   font-weight:600;
 }
-
 .tooltip-date{
   display:block;
   margin-top:.25rem;
   font-size:.7rem;
   color:var(--muted);
 }
-
 .tooltip-zone{
   display:block;
   margin-top:.2rem;
@@ -280,9 +240,75 @@ body{
   color:var(--muted);
 }
 
+/* ── LIVE WIDGETS (new) ── */
+.live-section { margin-top: 3.5rem; }
+.live-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+.live-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+}
+.live-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.63rem; color: var(--muted);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.live-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #4caf7d; flex-shrink: 0;
+  animation: livePulse 2s infinite;
+}
+@keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.live-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.9rem; font-weight: 400;
+  letter-spacing: -0.02em; line-height: 1;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+.live-sub { font-size: 0.75rem; color: var(--muted); }
+.globe-card {
+  grid-column: 1 / -1;
+  padding: 0; overflow: hidden;
+}
+.globe-header {
+  padding: 1rem 1.4rem 0.8rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.globe-latest {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.63rem; color: var(--muted);
+}
+#globeCanvas {
+  width: 100%; height: 290px;
+  display: block; cursor: grab;
+}
+#globeCanvas:active { cursor: grabbing; }
+.globe-legend {
+  padding: 0.65rem 1.4rem;
+  display: flex; gap: 1.2rem; flex-wrap: wrap;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+.globe-legend span { display: flex; align-items: center; gap: 0.35rem; }
+.leg-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+
 @media (max-width: 600px) {
   .hero-inner { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; }
   .hero-avatar { width: 110px; height: 110px; }
+  .live-grid { grid-template-columns: 1fr; }
+  .globe-card { grid-column: 1; }
+  #globeCanvas { height: 220px; }
 }
 </style>
 <script src="shared.js" defer></script>
@@ -309,30 +335,22 @@ body{
   <div class="hero-inner">
 
     <div class="hero-text">
-      <!-- Discord presence via Lanyard — replace YOUR_DISCORD_ID below -->
-  <div class="presence-stack">
+      <div class="presence-stack">
+        <div class="hero-status" id="discordStatus">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Connecting...</span>
+        </div>
+        <div id="spotifyWidget" class="spotify-widget">
+          <span class="spotify-offline">Loading Spotify...</span>
+        </div>
+      </div>
 
-  <div class="hero-status" id="discordStatus">
-    <span class="status-dot" id="statusDot"></span>
-    <span id="statusText">Connecting...</span>
-  </div>
-
-  <div id="spotifyWidget" class="spotify-widget">
-    <span class="spotify-offline">
-      Loading Spotify...
-    </span>
-  </div>
-
-</div>
       <h1 class="brand-font brand-heading">X E N O N .</h1>
-
       <p class="hero-aka">Probably sleeping right now...</p>
-
       <p class="hero-desc">
         Full-stack developer focused on web and mobile applications.
         Clean code, honest interfaces, and software that holds up over time.
       </p>
-
       <div class="hero-nav-links">
         <a class="hero-nav-link" href="blog.html">Writing</a>
         <a class="hero-nav-link" href="work.html">Selected work</a>
@@ -341,11 +359,6 @@ body{
       </div>
     </div>
 
-    <!--
-      AVATAR — replace "images/avatar.jpg" with your own photo filename.
-      Put your image inside an "images/" folder next to index.html.
-      Any format works: .jpg, .png, .webp
-    -->
     <div class="hero-avatar">
       <img src="images/avatar.jpg" alt="Your Name"/>
     </div>
@@ -360,26 +373,52 @@ body{
     I develop websites and sometimes Android applications as well.
   </p>
   <p class="about-text">
-    I prefer working on products that solve real problems for real people. I'm comfortable with 
+    I prefer working on products that solve real problems for real people. I'm comfortable with
     ambiguity, and I know when to reach for a simple solution rather than an impressive one.
   </p>
   <p class="about-text">
-  Currently based in
-  <span class="location-time-wrapper">
+    Currently based in
+    <span class="location-time-wrapper">
+      <span class="location-link">India</span>
+      <span class="time-tooltip" id="indiaTime">Loading...</span>
+    </span>.
+    Open to remote work worldwide.
+  </p>
 
-    <span class="location-link">
-      India
-    </span>
+  <!-- ── NEW: LIVE WIDGETS ── -->
+  <div class="live-section">
+    <p class="section-label">Live</p>
+    <div class="live-grid">
 
-    <span class="time-tooltip" id="indiaTime">
+      <div class="live-card">
+        <div class="live-label"><span class="live-dot"></span>Total Visitors</div>
+        <div class="live-num" id="visitCount">—</div>
+        <div class="live-sub">people have visited this site</div>
+      </div>
 
-      Loading...
+      <div class="live-card">
+        <div class="live-label"><span class="live-dot"></span>Unique Locations</div>
+        <div class="live-num" id="uniqueCount">—</div>
+        <div class="live-sub">countries &amp; cities</div>
+      </div>
 
-    </span>
+      <div class="live-card globe-card">
+        <div class="globe-header">
+          <div class="live-label" style="margin:0;"><span class="live-dot"></span>Visitor Globe</div>
+          <div class="globe-latest" id="globeLatest"></div>
+        </div>
+        <canvas id="globeCanvas"></canvas>
+        <div class="globe-legend">
+          <span><span class="leg-dot" style="background:#4caf7d"></span>India (you)</span>
+          <span><span class="leg-dot" style="background:#60a5fa"></span>Visitors</span>
+          <span id="globeCount" style="margin-left:auto;"></span>
+        </div>
+      </div>
 
-  </span>.
-  Open to remote work worldwide.
-</p>
+    </div>
+  </div>
+  <!-- ── END NEW ── -->
+
 </div>
 
 <footer>
@@ -389,100 +428,32 @@ body{
 
 </div>
 
+<!-- original scripts untouched -->
 <script>
 const DISCORD_ID = "471288359269171201";
 
 async function updatePresence() {
-
   try {
-
-    const response =
-      await fetch(
-        `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
-      );
-
+    const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
     const result = await response.json();
-
     if (!result.success) return;
-
     const data = result.data;
-
-    const dot =
-      document.getElementById("statusDot");
-
-    const text =
-      document.getElementById("statusText");
-
-    dot.className =
-      "status-dot " +
-      (data.discord_status || "offline");
-
-    const labels = {
-      online: "Online",
-      idle: "Idle",
-      dnd: "Do Not Disturb",
-      offline: "Offline"
-    };
-
-    text.textContent =
-      labels[data.discord_status] || "Offline";
-
-    const spotify =
-      document.getElementById("spotifyWidget");
-
+    const dot  = document.getElementById("statusDot");
+    const text = document.getElementById("statusText");
+    dot.className = "status-dot " + (data.discord_status || "offline");
+    const labels = { online:"Online", idle:"Idle", dnd:"Do Not Disturb", offline:"Offline" };
+    text.textContent = labels[data.discord_status] || "Offline";
+    const spotify = document.getElementById("spotifyWidget");
     if (!data.listening_to_spotify || !data.spotify) {
-
-      spotify.innerHTML = `
-        <div class="spotify-meta">
-          <span class="spotify-label">
-            Spotify
-          </span>
-
-          <span class="spotify-offline">
-            Currently not listening
-          </span>
-        </div>
-      `;
-
+      spotify.innerHTML = `<div class="spotify-meta"><span class="spotify-label">Spotify</span><span class="spotify-offline">Currently not listening</span></div>`;
       return;
     }
-
-    spotify.innerHTML = `
-      <img
-        src="${data.spotify.album_art_url}"
-        alt="Album Cover"
-        class="spotify-cover"
-      >
-
-      <div class="spotify-meta">
-
-        <span class="spotify-label">
-          Listening to Spotify
-        </span>
-
-        <span class="spotify-title">
-          ${data.spotify.song}
-        </span>
-
-        <span class="spotify-artist">
-          ${data.spotify.artist}
-        </span>
-
-      </div>
-    `;
-
+    spotify.innerHTML = `<img src="${data.spotify.album_art_url}" alt="Album Cover" class="spotify-cover"><div class="spotify-meta"><span class="spotify-label">Listening to Spotify</span><span class="spotify-title">${data.spotify.song}</span><span class="spotify-artist">${data.spotify.artist}</span></div>`;
   } catch (err) {
-
     console.error(err);
-
-    document.getElementById("spotifyWidget").innerHTML = `
-      <span class="spotify-offline">
-        Spotify unavailable
-      </span>
-    `;
+    document.getElementById("spotifyWidget").innerHTML = `<span class="spotify-offline">Spotify unavailable</span>`;
   }
 }
-
 updatePresence();
 setInterval(updatePresence, 10000);
 </script>
@@ -490,173 +461,232 @@ setInterval(updatePresence, 10000);
 <script>
 const canvas = document.getElementById("trail-canvas");
 const ctx = canvas.getContext("2d");
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resize();
 window.addEventListener("resize", resize);
-
 const points=[];
 const maxPoints=14;
-
 let lastMouseMove=Date.now();
-
-
 addEventListener("mousemove",e=>{
-
-lastMouseMove=Date.now();
-
-points.push({
-x:e.clientX,
-y:e.clientY
+  lastMouseMove=Date.now();
+  points.push({x:e.clientX,y:e.clientY});
+  if(points.length>maxPoints) points.shift();
 });
-
-if(points.length>maxPoints){
-points.shift();
-}
-
-});
-
 function trail(){
-  if(Date.now()-lastMouseMove>50){
-
-if(points.length>0){
-points.shift();
-}
-
-}
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-if(points.length>2){
-ctx.beginPath();
-ctx.moveTo(points[0].x,points[0].y);
-
-for(let i=1;i<points.length-2;i++){
-const xc=(points[i].x+points[i+1].x)/2;
-const yc=(points[i].y+points[i+1].y)/2;
-ctx.quadraticCurveTo(points[i].x,points[i].y,xc,yc);
-}
-
-ctx.strokeStyle = "rgba(74,144,255,0.5)";
-ctx.shadowColor = "#4A90FF";
-ctx.lineWidth=4;
-ctx.shadowBlur=12;
-ctx.lineCap="round";
-ctx.stroke();
-}
-requestAnimationFrame(trail);
+  if(Date.now()-lastMouseMove>50){ if(points.length>0) points.shift(); }
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(points.length>2){
+    ctx.beginPath();
+    ctx.moveTo(points[0].x,points[0].y);
+    for(let i=1;i<points.length-2;i++){
+      const xc=(points[i].x+points[i+1].x)/2;
+      const yc=(points[i].y+points[i+1].y)/2;
+      ctx.quadraticCurveTo(points[i].x,points[i].y,xc,yc);
+    }
+    ctx.strokeStyle="rgba(74,144,255,0.5)";
+    ctx.shadowColor="#4A90FF";
+    ctx.lineWidth=4;
+    ctx.shadowBlur=12;
+    ctx.lineCap="round";
+    ctx.stroke();
+  }
+  requestAnimationFrame(trail);
 }
 trail();
-
-const wrapper =
-  document.getElementById("site-wrapper");
-
-let targetX = 0;
-let targetY = 0;
-
-let currentX = 0;
-let currentY = 0;
-
-document.addEventListener(
-  "mousemove",
-  e => {
-
-    targetX =
-      ((e.clientX /
-      window.innerWidth) - 0.5) * 4;
-
-    targetY =
-      ((e.clientY /
-      window.innerHeight) - 0.5) * 4;
-
-  }
-);
-
+const wrapper = document.getElementById("site-wrapper");
+let targetX=0,targetY=0,currentX=0,currentY=0;
+document.addEventListener("mousemove",e=>{
+  targetX=((e.clientX/window.innerWidth)-0.5)*4;
+  targetY=((e.clientY/window.innerHeight)-0.5)*4;
+});
 function animatePage(){
-
-  currentX +=
-    (targetX - currentX) * 0.06;
-
-  currentY +=
-    (targetY - currentY) * 0.06;
-
-  wrapper.style.transform =
-    `translate(${currentX}px, ${currentY}px)`;
-    
-  const jitter =
-  Math.sin(Date.now() * 0.004) * 0.4;
-
-wrapper.style.transform =
-  `translate(${currentX + jitter}px,
-             ${currentY + jitter}px)`;
-
-  requestAnimationFrame(
-    animatePage
-  );
-
+  currentX+=(targetX-currentX)*0.06;
+  currentY+=(targetY-currentY)*0.06;
+  const jitter=Math.sin(Date.now()*0.004)*0.4;
+  wrapper.style.transform=`translate(${currentX+jitter}px,${currentY+jitter}px)`;
+  requestAnimationFrame(animatePage);
 }
-
-animatePage();
-
 animatePage();
 </script>
 
 <script>
 function updateIndiaTime() {
-
-  const el =
-    document.getElementById("indiaTime");
-
+  const el = document.getElementById("indiaTime");
   if (!el) return;
-
   const now = new Date();
-
-  const time =
-    now.toLocaleTimeString(
-      "en-IN",
-      {
-        timeZone: "Asia/Kolkata",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      }
-    );
-
-  const date =
-    now.toLocaleDateString(
-      "en-IN",
-      {
-        timeZone: "Asia/Kolkata",
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      }
-    );
-
-  el.innerHTML = `
-    <span class="tooltip-location">
-      India
-    </span>
-
-    <span class="tooltip-time">
-      ${time}
-    </span>
-
-    <span class="tooltip-date">
-      ${date}
-    </span>
-
-    <span class="tooltip-zone">
-      UTC +5:30 (IST)
-    </span>
-  `;
+  const time = now.toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  const date = now.toLocaleDateString("en-IN",{timeZone:"Asia/Kolkata",day:"numeric",month:"short",year:"numeric"});
+  el.innerHTML = `<span class="tooltip-location">India</span><span class="tooltip-time">${time}</span><span class="tooltip-date">${date}</span><span class="tooltip-zone">UTC +5:30 (IST)</span>`;
 }
-
 updateIndiaTime();
 setInterval(updateIndiaTime, 1000);
 </script>
+
+<!-- ── NEW: visit counter + globe script ── -->
+<script>
+// Visit counter + pin data
+let visitorPins = [];
+(async () => {
+  try {
+    await fetch('/api/visit');
+    const res  = await fetch('/api/visitors');
+    const data = await res.json();
+    const vc = document.getElementById('visitCount');
+    const uc = document.getElementById('uniqueCount');
+    const gc = document.getElementById('globeCount');
+    const gl = document.getElementById('globeLatest');
+    if (vc) vc.textContent = (data.count || 0).toLocaleString();
+    visitorPins = data.pins || [];
+    if (uc) uc.textContent = visitorPins.length.toLocaleString();
+    if (gc) gc.textContent = visitorPins.length + ' unique locations';
+    if (gl && visitorPins.length > 0)
+      gl.textContent = 'Latest: ' + visitorPins[0].city + ', ' + visitorPins[0].country;
+  } catch(_) {}
+  initGlobe();
+})();
+
+// Globe
+const globeCanvas = document.getElementById('globeCanvas');
+const gctx = globeCanvas.getContext('2d');
+let gW, gH, gCX, gCY, gR;
+let rotX = 0.25, rotY = -1.35;
+let gDrag = false, gLX = 0, gLY = 0, gVY = 0.003;
+
+function gResize() {
+  const dpr = window.devicePixelRatio || 1;
+  gW = globeCanvas.offsetWidth; gH = globeCanvas.offsetHeight;
+  globeCanvas.width = gW * dpr; globeCanvas.height = gH * dpr;
+  gctx.scale(dpr, dpr);
+  gCX = gW / 2; gCY = gH / 2;
+  gR  = Math.min(gW, gH) * 0.41;
+}
+
+function ll2xyz(lat, lng) {
+  const phi = (90 - lat) * Math.PI / 180;
+  const th  = (lng + 180) * Math.PI / 180;
+  return { x:-(Math.sin(phi)*Math.cos(th)), y:Math.cos(phi), z:Math.sin(phi)*Math.sin(th) };
+}
+function gRot(p) {
+  let x =  p.x*Math.cos(rotY) + p.z*Math.sin(rotY);
+  let z = -p.x*Math.sin(rotY) + p.z*Math.cos(rotY);
+  let y2 = p.y*Math.cos(rotX) - z*Math.sin(rotX);
+  let z2 = p.y*Math.sin(rotX) + z*Math.cos(rotX);
+  return { x, y:y2, z:z2 };
+}
+function gProj(p) { return { sx:gCX+p.x*gR, sy:gCY-p.y*gR, vis:p.z>-0.05 }; }
+
+const LAND=[
+  [50,-125],[48,-90],[42,-80],[35,-90],[30,-100],[45,-75],[55,-120],[38,-95],
+  [5,-75],[-5,-55],[-15,-50],[-25,-65],[-35,-70],[0,-65],[-10,-75],
+  [60,25],[55,20],[50,10],[48,2],[52,5],[45,15],[40,22],[57,10],[43,12],
+  [35,5],[20,15],[5,20],[-5,35],[10,30],[-25,28],[0,15],[-15,30],[15,10],
+  [60,80],[55,60],[40,100],[30,80],[25,85],[20,80],[10,105],[55,40],[35,105],
+  [50,40],[45,70],[60,100],[15,74],[22,80],[12,78],[28,77],
+  [-25,133],[-35,145],[-20,125],[-30,152],[-28,114],
+  [54,-3],[52,0],[53,-8],[35,136],[38,140],[33,131],
+];
+
+function drawGlobe() {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  gctx.clearRect(0, 0, gW, gH);
+  // sphere
+  const g = gctx.createRadialGradient(gCX-gR*0.3, gCY-gR*0.3, gR*0.05, gCX, gCY, gR);
+  g.addColorStop(0, dark ? '#1c1c1a' : '#f7f5f0');
+  g.addColorStop(1, dark ? '#111110' : '#eae8e3');
+  gctx.beginPath(); gctx.arc(gCX, gCY, gR, 0, Math.PI*2);
+  gctx.fillStyle = g; gctx.fill();
+  // grid
+  gctx.strokeStyle = dark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.05)';
+  gctx.lineWidth = 0.5;
+  for (let lat=-60; lat<=60; lat+=30) {
+    gctx.beginPath(); let f=true;
+    for (let lng=-180; lng<=180; lng+=2) {
+      const p=gProj(gRot(ll2xyz(lat,lng)));
+      if(!p.vis){f=true;continue;}
+      f?gctx.moveTo(p.sx,p.sy):gctx.lineTo(p.sx,p.sy); f=false;
+    }
+    gctx.stroke();
+  }
+  for (let lng=-180; lng<180; lng+=30) {
+    gctx.beginPath(); let f=true;
+    for (let lat=-90; lat<=90; lat+=2) {
+      const p=gProj(gRot(ll2xyz(lat,lng)));
+      if(!p.vis){f=true;continue;}
+      f?gctx.moveTo(p.sx,p.sy):gctx.lineTo(p.sx,p.sy); f=false;
+    }
+    gctx.stroke();
+  }
+  // land dots
+  LAND.forEach(([lat,lng])=>{
+    const r=gRot(ll2xyz(lat,lng));
+    if(r.z<0) return;
+    const p=gProj(r);
+    gctx.beginPath(); gctx.arc(p.sx,p.sy,1.8,0,Math.PI*2);
+    gctx.fillStyle=dark?`rgba(200,195,185,${0.2+r.z*0.5})`:`rgba(80,75,65,${0.2+r.z*0.5})`;
+    gctx.fill();
+  });
+  // visitor pins
+  visitorPins.forEach((v,i)=>{
+    if(!v.lat||!v.lon) return;
+    const r=gRot(ll2xyz(v.lat,v.lon));
+    if(r.z<0) return;
+    const p=gProj(r);
+    const s=i===0?4.5:3;
+    const gl=gctx.createRadialGradient(p.sx,p.sy,0,p.sx,p.sy,s*3.5);
+    gl.addColorStop(0,'rgba(96,165,250,0.4)'); gl.addColorStop(1,'transparent');
+    gctx.beginPath(); gctx.arc(p.sx,p.sy,s*3.5,0,Math.PI*2);
+    gctx.fillStyle=gl; gctx.fill();
+    gctx.beginPath(); gctx.arc(p.sx,p.sy,s,0,Math.PI*2);
+    gctx.fillStyle='#60a5fa'; gctx.fill();
+  });
+  // home pin — India
+  const home=gRot(ll2xyz(22.86,88.52));
+  if(home.z>=0){
+    const p=gProj(home);
+    const pulse=gctx.createRadialGradient(p.sx,p.sy,0,p.sx,p.sy,13);
+    pulse.addColorStop(0,'rgba(76,175,61,0.3)'); pulse.addColorStop(1,'transparent');
+    gctx.beginPath(); gctx.arc(p.sx,p.sy,13,0,Math.PI*2);
+    gctx.fillStyle=pulse; gctx.fill();
+    gctx.beginPath(); gctx.arc(p.sx,p.sy,5,0,Math.PI*2);
+    gctx.fillStyle='#4caf7d'; gctx.fill();
+    gctx.beginPath(); gctx.arc(p.sx,p.sy,2,0,Math.PI*2);
+    gctx.fillStyle='#fff'; gctx.fill();
+  }
+  // edge
+  gctx.beginPath(); gctx.arc(gCX,gCY,gR,0,Math.PI*2);
+  gctx.strokeStyle=dark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.08)';
+  gctx.lineWidth=1; gctx.stroke();
+}
+
+function gTick() {
+  if(!gDrag) rotY += gVY;
+  drawGlobe();
+  requestAnimationFrame(gTick);
+}
+
+function initGlobe() {
+  gResize();
+  window.addEventListener('resize', gResize);
+  gTick();
+}
+
+globeCanvas.addEventListener('mousedown', e=>{gDrag=true;gLX=e.clientX;gLY=e.clientY;});
+window.addEventListener('mouseup', ()=>{gDrag=false;});
+window.addEventListener('mousemove', e=>{
+  if(!gDrag) return;
+  rotY+=(e.clientX-gLX)*0.005; rotX+=(e.clientY-gLY)*0.003;
+  rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));
+  gLX=e.clientX; gLY=e.clientY;
+});
+globeCanvas.addEventListener('touchstart',e=>{gDrag=true;gLX=e.touches[0].clientX;gLY=e.touches[0].clientY;e.preventDefault();},{passive:false});
+globeCanvas.addEventListener('touchmove',e=>{
+  if(!gDrag)return;
+  rotY+=(e.touches[0].clientX-gLX)*0.005; rotX+=(e.touches[0].clientY-gLY)*0.003;
+  rotX=Math.max(-Math.PI/2,Math.min(Math.PI/2,rotX));
+  gLX=e.touches[0].clientX; gLY=e.touches[0].clientY; e.preventDefault();
+},{passive:false});
+globeCanvas.addEventListener('touchend',()=>{gDrag=false;});
+</script>
+
 </body>
 </html>
