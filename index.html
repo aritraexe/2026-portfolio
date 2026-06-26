@@ -414,22 +414,13 @@ html, body{ overflow-x: hidden; }
     <p class="section-label">Live</p>
     <div class="live-grid">
 
-      <div class="live-card">
-        <div class="live-label"><span class="live-dot"></span>Total Visitors</div>
-        <div class="live-num" id="visitCount">—</div>
-        <div class="live-sub">people have visited this site</div>
-      </div>
-
-      <div class="live-card">
-        <div class="live-label"><span class="live-dot"></span>Unique Locations</div>
-        <div class="live-num" id="uniqueCount">—</div>
-        <div class="live-sub">countries &amp; cities</div>
-      </div>
-
       <div class="live-card globe-card">
         <div class="globe-header">
           <div class="live-label" style="margin:0;"><span class="live-dot"></span>Visitor Globe</div>
-          <div class="globe-latest" id="globeLatest"></div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.2rem;">
+            <div class="globe-latest" id="globeTotalCount">0 total visitors</div>
+            <div class="globe-latest" id="globeLatest"></div>
+          </div>
         </div>
         <div id="globeTooltip" class="globe-tooltip"></div>
         <canvas id="globeCanvas"></canvas>
@@ -558,10 +549,12 @@ let visitorPins = [];
     const vc = document.getElementById('visitCount');
     const uc = document.getElementById('uniqueCount');
     const gc = document.getElementById('globeCount');
+    const gt = document.getElementById('globeTotalCount');
     const gl = document.getElementById('globeLatest');
     if (vc) vc.textContent = (data.count || 0).toLocaleString();
     visitorPins = data.pins || [];
     if (uc) uc.textContent = visitorPins.length.toLocaleString();
+    if (gt) gt.textContent = `${(data.count || 0).toLocaleString()} total visitors`;
     if (gc) gc.textContent = visitorPins.length + ' unique locations';
     if (gl && visitorPins.length > 0)
       gl.textContent = 'Latest: ' + visitorPins[0].city + ', ' + visitorPins[0].country;
