@@ -11,6 +11,9 @@ export default async function handler(req, res) {
     return r.json();
   };
 
+  const requestUrl = new URL(req.url || 'http://localhost', 'http://localhost');
+  const visitorId = requestUrl.searchParams.get('visitorId') || req.headers['x-visitor-id'] || req.query?.visitorId || null;
+
   // Get visitor IP
   const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() || '8.8.8.8';
 
@@ -25,16 +28,35 @@ export default async function handler(req, res) {
     }
   } catch (_) {}
 
-  // Increment total visit counter
-  const countRes = await redis(['INCR', 'portfolio:visits']);
-  const count = countRes.result;
+  const now = Date.now();
+  const dayMs = 24 * 60 * 60 * 1000;
+  let shouldCount = true;
 
-  // Store visitor pin (keep last 100 unique locations)
-  if (lat && lon) {
-    const pin = JSON.stringify({ lat, lon, country, city, ts: Date.now() });
+  if (visitorId) {
+    const lastSeenRes = await redis(['GET', `portfolio:visitor:${visitorId}`]);
+    const lastSeen = parseInt(lastSeenRes.result || '0', 10);
+    if (lastSeen && now - lastSeen < dayMs) {
+      shouldCount = false;
+    }
+  }
+
+  const countRes = await redis(['GET', 'portfolio:visits']);
+  let count = parseInt(countRes.result || '0', 10);
+
+  if (shouldCount) {
+    const incrementRes = await redis(['INCR', 'portfolio:visits']);
+    count = parseInt(incrementRes.result || '0', 10);
+    if (visitorId) {
+      await redis(['SET', `portfolio:visitor:${visitorId}`, String(now)]);
+    }
+  }
+
+  // Store visitor pin (keep last 100 unique locations) only when counting a new daily visit
+  if (shouldCount && lat && lon) {
+    const pin = JSON.stringify({ lat, lon, country, city, ts: now });
     await redis(['LPUSH', 'portfolio:pins', pin]);
     await redis(['LTRIM', 'portfolio:pins', '0', '99']);
   }
 
-  return res.status(200).json({ count, lat, lon, country, city });
+  return res.status(200).json({ count, lat, lon, country, city, counted: shouldCount });
 }

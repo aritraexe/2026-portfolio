@@ -542,7 +542,16 @@ setInterval(updateIndiaTime, 1000);
 let visitorPins = [];
 (async () => {
   try {
-    await fetch('/api/visit');
+    const visitorStorageKey = 'visitor-id';
+    let visitorId = localStorage.getItem(visitorStorageKey);
+    if (!visitorId) {
+      visitorId = window.crypto && typeof window.crypto.randomUUID === 'function'
+        ? window.crypto.randomUUID()
+        : `visitor-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem(visitorStorageKey, visitorId);
+    }
+
+    await fetch(`/api/visit?visitorId=${encodeURIComponent(visitorId)}`);
     const res  = await fetch('/api/visitors');
     const data = await res.json();
     const vc = document.getElementById('visitCount');
