@@ -253,6 +253,30 @@ html, body{ overflow-x: hidden; }
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.2rem 1.4rem;
+  position: relative;
+}
+.globe-tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg2);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  line-height: 1.3;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+  z-index: 100;
+}
+.globe-tooltip.show {
+  opacity: 1;
+  visibility: visible;
 }
 .live-label {
   font-family: 'IBM Plex Mono', monospace;
@@ -407,6 +431,7 @@ html, body{ overflow-x: hidden; }
           <div class="live-label" style="margin:0;"><span class="live-dot"></span>Visitor Globe</div>
           <div class="globe-latest" id="globeLatest"></div>
         </div>
+        <div id="globeTooltip" class="globe-tooltip"></div>
         <canvas id="globeCanvas"></canvas>
         <div class="globe-legend">
           <span><span class="leg-dot" style="background:#4caf7d"></span>India (you)</span>
@@ -547,10 +572,12 @@ let visitorPins = [];
 
 // Globe
 const globeCanvas = document.getElementById('globeCanvas');
+const globeTooltip = document.getElementById('globeTooltip');
 const gctx = globeCanvas.getContext('2d');
 let gW, gH, gCX, gCY, gR;
 let rotX = 0.25, rotY = -1.35;
 let gDrag = false, gLX = 0, gLY = 0, gVY = 0.003;
+let hoverPoint = null;
 
 function gResize() {
   const dpr = window.devicePixelRatio || 1;
@@ -585,6 +612,35 @@ const LAND=[
   [-25,133],[-35,145],[-20,125],[-30,152],[-28,114],
   [54,-3],[52,0],[53,-8],[35,136],[38,140],[33,131],
 ];
+
+function syncGlobeTooltip() {
+  if (!hoverPoint) {
+    globeTooltip.classList.remove('show');
+    return;
+  }
+
+  const hit = visitorPins.find((pin) => {
+    if (!pin.lat || !pin.lon) return false;
+    const r = gRot(ll2xyz(pin.lat, pin.lon));
+    if (r.z < 0) return false;
+    const p = gProj(r);
+    const dx = hoverPoint.x - p.sx;
+    const dy = hoverPoint.y - p.sy;
+    return Math.sqrt(dx * dx + dy * dy) <= 8;
+  });
+
+  if (!hit) {
+    globeTooltip.classList.remove('show');
+    return;
+  }
+
+  const r = gRot(ll2xyz(hit.lat, hit.lon));
+  const p = gProj(r);
+  globeTooltip.textContent = `${hit.city || 'Unknown'}, ${hit.country || 'Unknown'}`;
+  globeTooltip.style.left = `${p.sx}px`;
+  globeTooltip.style.top = `${p.sy}px`;
+  globeTooltip.classList.add('show');
+}
 
 function drawGlobe() {
   const dark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -656,6 +712,8 @@ function drawGlobe() {
   gctx.beginPath(); gctx.arc(gCX,gCY,gR,0,Math.PI*2);
   gctx.strokeStyle=dark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.08)';
   gctx.lineWidth=1; gctx.stroke();
+
+  syncGlobeTooltip();
 }
 
 function gTick() {
@@ -671,6 +729,12 @@ function initGlobe() {
 }
 
 globeCanvas.addEventListener('mousedown', e=>{gDrag=true;gLX=e.clientX;gLY=e.clientY;});
+globeCanvas.addEventListener('mousemove', e=>{
+  const rect = globeCanvas.getBoundingClientRect();
+  hoverPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  syncGlobeTooltip();
+});
+globeCanvas.addEventListener('mouseleave', ()=>{ hoverPoint = null; globeTooltip.classList.remove('show'); });
 window.addEventListener('mouseup', ()=>{gDrag=false;});
 window.addEventListener('mousemove', e=>{
   if(!gDrag) return;
