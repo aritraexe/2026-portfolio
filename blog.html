@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Writing — Your Name</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Racing+Sans+One:wght@300;400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="shared.css"/>
 <style>
 .blog-list { display: flex; flex-direction: column; }
@@ -18,9 +18,9 @@
 }
 .blog-item:first-child { border-top: 1px solid var(--border); }
 .blog-item:hover { opacity: 0.65; }
-.blog-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--muted); padding-top: 2px; }
+.blog-date { font-family: 'Racing Sans One', cursive; font-size: 0.68rem; color: var(--muted); padding-top: 2px; }
 .blog-title { font-size: 0.88rem; line-height: 1.5; margin-bottom: 0.2rem; }
-.blog-cat { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+.blog-cat { font-family: 'Racing Sans One', cursive; font-size: 0.65rem; color: var(--muted); }
 
 @media (max-width: 580px) {
   .blog-item { grid-template-columns: 1fr; gap: 0.15rem; }
@@ -49,7 +49,7 @@
   </div>
 
   <div class="blog-list" id="blogList">
-    <p style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;">Loading posts…</p>
+    <p style="font-family:'Racing Sans One',cursive;font-size:0.75rem;color:var(--muted);padding:1rem 0;">Loading posts…</p>
   </div>
 </div>
 
@@ -66,7 +66,7 @@ async function loadBlogPosts() {
     const data = await res.json();
     const posts = data.posts || [];
     if (!posts.length) {
-      el.innerHTML = "<p style=\"font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;\">No posts yet.</p>";
+      el.innerHTML = "<p style=\"font-family:'Racing Sans One',cursive;font-size:0.75rem;color:var(--muted);padding:1rem 0;\">No posts yet.</p>";
       return;
     }
     el.innerHTML = posts.map(p => {
@@ -80,7 +80,7 @@ async function loadBlogPosts() {
       </a>`;
     }).join('');
   } catch {
-    el.innerHTML = "<p style=\"font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;\">Failed to load posts.</p>";
+    el.innerHTML = "<p style=\"font-family:'Racing Sans One',cursive;font-size:0.75rem;color:var(--muted);padding:1rem 0;\">Failed to load posts.</p>";
   }
 }
 loadBlogPosts();

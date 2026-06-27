@@ -75,7 +75,7 @@ nav {
   outline: none;
   gap: 0.45rem;
   color: var(--muted);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Racing Sans One', cursive;
   font-size: 0.7rem;
   letter-spacing: 0.04em;
 }
@@ -97,7 +97,7 @@ nav {
 
 /* SECTION LABEL */
 .section-label {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Racing Sans One', cursive;
   font-size: 0.68rem; color: var(--muted);
   letter-spacing: 0.1em; text-transform: uppercase;
   margin-bottom: 1.4rem;
@@ -112,7 +112,7 @@ footer {
   max-width: 760px; margin: 0 auto;
   padding: 1.4rem 2rem;
   display: flex; justify-content: space-between;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Racing Sans One', cursive;
   font-size: 0.68rem; color: var(--muted);
 }
 
