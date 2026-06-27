@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Knighters Music — Xenon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../shared.css"/>
+<style>
+:root {
+  --bg: #ffffff; --bg2: #ffffff;
+  --text: #000000; --muted: #333333; --border: #e6e6e6;
+}
+[data-theme="dark"] {
+  --bg: #0b0b0b; --bg2: #0f0f0f;
+  --text: #ffffff; --muted: #bfbfbf; --border: #222222;
+}
+
+.post-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 7rem 2rem 6rem;
+}
+
+/* BACK */
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; color: var(--muted);
+  text-decoration: none; margin-bottom: 3rem;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--text); }
+
+/* POST HEADER */
+.post-header { margin-bottom: 2.5rem; }
+.post-cat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.post-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600; letter-spacing: -0.03em;
+  line-height: 1.15; margin-bottom: 0.8rem;
+  color: var(--text);
+}
+.post-subtitle {
+  font-size: 1rem; color: var(--muted);
+  line-height: 1.7; max-width: 560px;
+  margin-bottom: 1.5rem;
+}
+.post-meta {
+  display: flex; gap: 1.4rem; flex-wrap: wrap;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ARTICLE BODY */
+.post-body {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-top: 2.2rem;
+}
+.post-body p { margin-bottom: 1.4rem; }
+.post-body h2 {
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--text); letter-spacing: -0.02em;
+  margin: 2.5rem 0 0.8rem;
+}
+.post-body h3 {
+  font-size: 0.95rem; font-weight: 600;
+  color: var(--text); letter-spacing: -0.01em;
+  margin: 1.8rem 0 0.5rem;
+}
+.post-body ul {
+  padding-left: 1.2rem; margin-bottom: 1.4rem;
+}
+.post-body ul li {
+  margin-bottom: 0.5rem; color: var(--muted);
+  line-height: 1.7;
+}
+.post-body code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  color: var(--text);
+}
+
+/* TAG ROW */
+.tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.6rem; border-radius: 2px;
+}
+
+/* WIP BANNER */
+.wip-banner {
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+}
+.wip-icon {
+  font-size: 1rem; flex-shrink: 0; margin-top: 1px;
+}
+
+/* POST FOOTER */
+.post-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.post-footer-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+}
+.back-to-writing {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; color: var(--muted);
+  text-decoration: none; transition: color 0.2s;
+}
+.back-to-writing:hover { color: var(--text); }
+
+@media (max-width: 580px) {
+  .post-page { padding: 6rem 1.3rem 4rem; }
+  .post-title { font-size: 1.7rem; }
+}
+</style>
+<script src="../shared.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="../index.html">Xenon</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="../blog.html" class="active">Writing</a></li>
+      <li><a href="../work.html">Work</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+    <button class="theme-btn" onclick="toggleTheme()"></button>
+  </div>
+</nav>
+
+<div class="post-page">
+
+  <a class="back-link" href="../blog.html">← Back to Writing</a>
+
+  <div class="post-header">
+    <p class="post-cat">Project Write-up</p>
+    <h1 class="post-title">Knighters Music</h1>
+    <p class="post-subtitle">A custom music Discord bot with rich audio quality and a variety of functions.</p>
+    <div class="post-meta">
+      <span>Jun 2025</span>
+      <span>2 min read</span>
+      <span>Discord · Bot Development</span>
+    </div>
+  </div>
+
+  <div class="tag-row">
+    <span class="tag">Discord.js</span>
+    <span class="tag">Node.js</span>
+    <span class="tag">MongoDB</span>
+    <span class="tag">Upstash</span>
+    <span class="tag">Audio</span>
+  </div>
+
+  <div class="wip-banner">
+    <span class="wip-icon">🚧</span>
+    <span>This post is a work in progress. Features and detailed documentation will be updated soon. Until then — enjoy the rich audio quality of the bot.</span>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Environment</h2>
+    <p>
+      Knighters Music is built on top of <strong>Discord.js</strong>, the leading Node.js library for interacting with the Discord API.
+      For persistence and state management, the bot integrates with both <strong>MongoDB</strong> and <strong>Upstash</strong> — giving it a reliable database layer for storing server settings, queue history, and user preferences.
+    </p>
+
+    <h2>Commands</h2>
+    <p>
+      For a seamless user experience, Knighters Music uses Discord's native <strong>slash command</strong> system.
+      All commands are accessible directly from the Discord chat by typing <code>/</code> — no need to remember prefixes or syntax.
+    </p>
+    <ul>
+      <li>Browse and autocomplete commands directly in the Discord UI</li>
+      <li>Clean, intuitive command names anyone can figure out instantly</li>
+      <li>Full command list and tutorial coming soon</li>
+    </ul>
+
+    <h2>Customizable Settings</h2>
+    <p>
+      One of the standout features is a built-in <strong>music equalizer</strong> with multiple presets.
+      Whether you prefer bass-heavy beats, flat reference audio, or something in between — you can tune the sound to exactly how you like it, per server.
+    </p>
+
+    <h2>Intention Behind Building the Bot</h2>
+    <p>
+      The goal was simple: build one of the best music bots on Discord — one that prioritises <strong>rich audio quality</strong> and <strong>low latency</strong> above everything else.
+      Most existing bots compromise on one or the other. Knighters Music doesn't.
+    </p>
+
+    <p>Tutorial and full feature breakdown will be updated soon. Stay tuned.</p>
+
+  </div>
+
+  <div class="post-footer">
+    <span class="post-footer-label">© 2026 Xenon</span>
+    <a class="back-to-writing" href="../blog.html">← All posts</a>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2026 Xenon</span>
+  <span>Human Being</span>
+</footer>
+
+</body>
+</html>
