@@ -1,19 +1,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:     #111110;
-  --bg2:    #161614;
-  --border: #252422;
-  --text:   #e8e6e1;
-  --muted:  #7a7870;
+  --bg:     #0b0b0b;
+  --bg2:    #0f0f0f;
+  --border: #222222;
+  --text:   #ffffff;
+  --muted:  #bfbfbf;
   --subtle: #3a3835;
 }
 [data-theme="light"] {
-  --bg:     #fafaf8;
-  --bg2:    #f3f2ef;
-  --border: #e0deda;
-  --text:   #1a1917;
-  --muted:  #888580;
+  --bg:     #ffffff;
+  --bg2:    #ffffff;
+  --border: #e6e6e6;
+  --text:   #000000;
+  --muted:  #333333;
   --subtle: #d5d3cf;
 }
 
@@ -112,7 +112,7 @@ footer {
   max-width: 760px; margin: 0 auto;
   padding: 1.4rem 2rem;
   display: flex; justify-content: space-between;
-  font-family: 'Racing Sans One', cursive;
+  font-family: 'Luckiest Guy', cursive;
   font-size: 0.68rem; color: var(--muted);
 }
 
