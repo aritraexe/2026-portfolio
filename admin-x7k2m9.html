@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Xenon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --bg:#0b0b0b; --bg2:#0f0f0f; --text:#ffffff; --muted:#bfbfbf; --border:#222222; --accent:#4caf7d; }
+[data-theme="light"] { --bg:#fafaf8; --bg2:#f3f2ef; --text:#1a1917; --muted:#888580; --border:#e0deda; }
+html { scroll-behavior: smooth; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; min-height:100vh; }
+
+/* LOGIN */
+#loginScreen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+}
+.login-box {
+  width: 100%; max-width: 360px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 2.2rem 2rem;
+}
+.login-logo {
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+  color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.login-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.8rem; }
+.login-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.login-field label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+.login-field input {
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); padding: 0.7rem 0.9rem;
+  font-family: 'Inter',sans-serif; font-size: 0.88rem;
+  border-radius: 4px; outline: none; width: 100%;
+  transition: border-color 0.2s;
+}
+.login-field input:focus { border-color: var(--accent); }
+.login-err { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:#e05252; margin-top:0.3rem; display:none; }
+.btn-primary {
+  width: 100%; background: var(--accent); color: #000;
+  border: none; padding: 0.75rem; font-family:'Inter',sans-serif;
+  font-size: 0.88rem; font-weight: 600; border-radius: 4px;
+  cursor: pointer; margin-top: 0.5rem; transition: opacity 0.2s;
+}
+.btn-primary:hover { opacity: 0.85; }
+
+/* ADMIN PANEL */
+#adminPanel { display: none; max-width: 780px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+.admin-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 2.5rem; padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.admin-title { font-size: 1.1rem; font-weight: 600; }
+.admin-meta { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--muted); }
+.btn-logout {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 0.4rem 0.9rem; font-family:'IBM Plex Mono',monospace; font-size:0.7rem;
+  border-radius: 4px; cursor: pointer; transition: all 0.2s;
+}
+.btn-logout:hover { border-color: #e05252; color: #e05252; }
+
+/* FORM */
+.form-section { margin-bottom: 3rem; }
+.form-section-title {
+  font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--muted);
+  letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.4rem;
+  display:flex; align-items:center; gap:0.5rem;
+}
+.form-section-title::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); }
+.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.field label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+.field input, .field select, .field textarea {
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--text); padding: 0.72rem 0.9rem;
+  font-family: 'Inter',sans-serif; font-size: 0.88rem;
+  border-radius: 4px; outline: none; width: 100%; resize: vertical;
+  transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+.field select option { background: var(--bg2); }
+.field textarea { min-height: 280px; font-size: 0.87rem; line-height: 1.7; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field-hint { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; color:var(--muted); margin-top:0.3rem; }
+
+/* TOOLBAR */
+.editor-toolbar {
+  display: flex; gap: 0.4rem; flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.tb-btn {
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--muted); padding: 0.3rem 0.65rem;
+  font-family:'IBM Plex Mono',monospace; font-size:0.68rem;
+  border-radius: 3px; cursor: pointer; transition: all 0.2s;
+}
+.tb-btn:hover { border-color: var(--accent); color: var(--text); }
+
+/* PUBLISH */
+.publish-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.btn-publish {
+  background: var(--accent); color: #000;
+  border: none; padding: 0.75rem 2rem;
+  font-family:'Inter',sans-serif; font-size:0.88rem; font-weight:600;
+  border-radius: 4px; cursor: pointer; transition: opacity 0.2s;
+}
+.btn-publish:hover { opacity: 0.85; }
+.publish-status { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted); }
+
+/* POSTS LIST */
+.posts-list { display: flex; flex-direction: column; gap: 0; }
+.post-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 0; border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+.post-row:first-child { border-top: 1px solid var(--border); }
+.post-row-info { flex: 1; min-width: 0; }
+.post-row-title { font-size: 0.88rem; font-weight: 500; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.post-row-meta { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); }
+.post-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.btn-view {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 0.3rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
+  border-radius: 3px; cursor: pointer; text-decoration: none;
+  transition: all 0.2s; display: inline-flex; align-items: center;
+}
+.btn-view:hover { border-color: var(--muted); color: var(--text); }
+.btn-delete {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 0.3rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
+  border-radius: 3px; cursor: pointer; transition: all 0.2s;
+}
+.btn-delete:hover { border-color: #e05252; color: #e05252; }
+.no-posts { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--muted); padding: 1.5rem 0; }
+
+@media (max-width: 580px) {
+  #adminPanel { padding: 2rem 1.2rem 4rem; }
+  .field-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <p class="login-logo">Xenon · Admin</p>
+    <h1 class="login-title">Sign in</h1>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="pwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()"/>
+    </div>
+    <p class="login-err" id="loginErr">Incorrect password.</p>
+    <button class="btn-primary" onclick="login()">Continue</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <div class="admin-header">
+    <div>
+      <p class="admin-meta">Xenon · Admin Panel</p>
+      <h1 class="admin-title">Blog Manager</h1>
+    </div>
+    <button class="btn-logout" onclick="logout()">Sign out</button>
+  </div>
+
+  <!-- NEW POST FORM -->
+  <div class="form-section">
+    <p class="form-section-title">New Post</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Title *</label>
+        <input type="text" id="fTitle" placeholder="Post title"/>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="fCategory">
+          <option>Project Write-up</option>
+          <option>Architecture</option>
+          <option>Mobile</option>
+          <option>Performance</option>
+          <option>Opinion</option>
+          <option>Tutorial</option>
+          <option>General</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Subtitle</label>
+      <input type="text" id="fSubtitle" placeholder="A short description shown in the listing"/>
+    </div>
+
+    <div class="field">
+      <label>Tags <span style="font-weight:300">(comma separated)</span></label>
+      <input type="text" id="fTags" placeholder="e.g. Discord.js, Node.js, MongoDB"/>
+    </div>
+
+    <div class="field">
+      <label>Body *</label>
+      <div class="editor-toolbar">
+        <button class="tb-btn" onclick="wrap('## ','')">H2</button>
+        <button class="tb-btn" onclick="wrap('### ','')">H3</button>
+        <button class="tb-btn" onclick="wrap('**','**')">Bold</button>
+        <button class="tb-btn" onclick="wrap('*','*')">Italic</button>
+        <button class="tb-btn" onclick="wrap('`','`')">Code</button>
+        <button class="tb-btn" onclick="insertList()">List</button>
+        <button class="tb-btn" onclick="insertDivider()">Divider</button>
+      </div>
+      <textarea id="fBody" placeholder="Write your post content here. Use ## for headings, **bold**, *italic*, `code`, and - for bullet lists."></textarea>
+      <p class="field-hint">Markdown-style formatting supported. Use ## Heading, **bold**, *italic*, `code`, - list item</p>
+    </div>
+
+    <div class="publish-row">
+      <button class="btn-publish" onclick="publishPost()">Publish Post →</button>
+      <span class="publish-status" id="publishStatus"></span>
+    </div>
+  </div>
+
+  <!-- EXISTING POSTS -->
+  <div class="form-section">
+    <p class="form-section-title">Published Posts</p>
+    <div class="posts-list" id="postsList">
+      <p class="no-posts">Loading…</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const PASS_HASH = '8e3b5a2c7f1d4e6a9b0c2d5e8f3a1b4c7d0e2f5a8b1c4d7e0f3a6b9c2d5e8f1'; // placeholder, checked server-side
+let SESSION_TOKEN = null;
+
+function login() {
+  const pw = document.getElementById('pwInput').value;
+  // Simple client-side check — real auth is on the API
+  // We just store it and let the API reject if wrong
+  if (!pw) return;
+  SESSION_TOKEN = pw;
+  // Test against API
+  fetch('/api/posts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${pw}` },
+    body: JSON.stringify({ __test: true, title: '__test__', body: '__test__' })
+  }).then(r => {
+    if (r.status === 401) {
+      document.getElementById('loginErr').style.display = 'block';
+      SESSION_TOKEN = null;
+    } else {
+      // Auth passed — but we sent a test post, delete it immediately
+      r.json().then(async d => {
+        if (d.slug) {
+          // fetch the post list and delete the test one
+          const lr = await fetch('/api/posts');
+          const ld = await lr.json();
+          const tp = (ld.posts||[]).find(p=>p.title==='__test__');
+          if (tp) await fetch('/api/posts', {
+            method:'DELETE',
+            headers:{'Content-Type':'application/json','Authorization':`Bearer ${pw}`},
+            body: JSON.stringify({id: tp.id})
+          });
+        }
+      });
+      sessionStorage.setItem('xenon_admin', pw);
+      showPanel();
+    }
+  }).catch(() => {
+    // Network error — still show panel, API will catch it
+    document.getElementById('loginErr').style.display = 'block';
+  });
+}
+
+function showPanel() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  loadPosts();
+}
+
+function logout() {
+  sessionStorage.removeItem('xenon_admin');
+  SESSION_TOKEN = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+}
+
+// Check existing session
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('xenon_admin');
+  if (saved) { SESSION_TOKEN = saved; showPanel(); }
+});
+
+// ── EDITOR HELPERS ──
+function wrap(before, after) {
+  const ta = document.getElementById('fBody');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const sel = ta.value.substring(s, e) || 'text';
+  ta.value = ta.value.substring(0, s) + before + sel + after + ta.value.substring(e);
+  ta.focus();
+}
+function insertList() {
+  const ta = document.getElementById('fBody');
+  const pos = ta.selectionStart;
+  const ins = '\n- Item 1\n- Item 2\n- Item 3\n';
+  ta.value = ta.value.substring(0, pos) + ins + ta.value.substring(pos);
+  ta.focus();
+}
+function insertDivider() {
+  const ta = document.getElementById('fBody');
+  const pos = ta.selectionStart;
+  ta.value = ta.value.substring(0, pos) + '\n---\n' + ta.value.substring(pos);
+  ta.focus();
+}
+
+// ── PUBLISH ──
+async function publishPost() {
+  const title    = document.getElementById('fTitle').value.trim();
+  const subtitle = document.getElementById('fSubtitle').value.trim();
+  const category = document.getElementById('fCategory').value;
+  const tagsRaw  = document.getElementById('fTags').value.trim();
+  const body     = document.getElementById('fBody').value.trim();
+  const status   = document.getElementById('publishStatus');
+
+  if (!title || !body) { status.textContent = '⚠ Title and body are required.'; status.style.color='#e05252'; return; }
+
+  const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+  status.textContent = 'Publishing…'; status.style.color = 'var(--muted)';
+
+  try {
+    const res = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SESSION_TOKEN}` },
+      body: JSON.stringify({ title, subtitle, category, tags, body }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    status.textContent = '✓ Published — ' + data.slug;
+    status.style.color = '#4caf7d';
+    // Clear form
+    ['fTitle','fSubtitle','fTags','fBody'].forEach(id => document.getElementById(id).value = '');
+    loadPosts();
+  } catch (err) {
+    status.textContent = '✗ ' + (err.message || 'Failed to publish.');
+    status.style.color = '#e05252';
+  }
+}
+
+// ── LOAD POSTS ──
+async function loadPosts() {
+  const el = document.getElementById('postsList');
+  el.innerHTML = '<p class="no-posts">Loading…</p>';
+  try {
+    const res  = await fetch('/api/posts');
+    const data = await res.json();
+    const posts = data.posts || [];
+    if (!posts.length) { el.innerHTML = '<p class="no-posts">No posts yet.</p>'; return; }
+    el.innerHTML = posts.map(p => `
+      <div class="post-row">
+        <div class="post-row-info">
+          <p class="post-row-title">${p.title}</p>
+          <p class="post-row-meta">${new Date(p.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} · ${p.category}</p>
+        </div>
+        <div class="post-row-actions">
+          <a class="btn-view" href="blog/${p.slug}.html" target="_blank">View ↗</a>
+          <button class="btn-delete" onclick="deletePost('${p.id}','${p.title.replace(/'/g,"\\'")}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  } catch {
+    el.innerHTML = '<p class="no-posts">Failed to load posts.</p>';
+  }
+}
+
+// ── DELETE ──
+async function deletePost(id, title) {
+  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+  try {
+    const res = await fetch('/api/posts', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SESSION_TOKEN}` },
+      body: JSON.stringify({ id }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    loadPosts();
+  } catch (err) {
+    alert('Failed to delete: ' + err.message);
+  }
+}
+</script>
+</body>
+</html>

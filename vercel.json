@@ -1,1 +1,5 @@
-{}
+{
+  "rewrites": [
+    { "source": "/blog/:slug", "destination": "/api/post-page?slug=:slug" }
+  ]
+}

@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Writing — Xenon</title>
+<title>Writing — Your Name</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="shared.css"/>
 <style>
 .blog-list { display: flex; flex-direction: column; }
@@ -31,7 +31,7 @@
 <body>
 
 <nav>
-  <a class="nav-name" href="index.html">Xenon</a>
+  <a class="nav-name" href="index.html">Your Name</a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="work.html">Work</a></li>
@@ -48,47 +48,42 @@
     <p>Technical notes, opinions, and lessons from shipping software.</p>
   </div>
 
-  <div class="blog-list">
-
-    <a class="blog-item" href="#">
-      <span class="blog-date">Jun 2025</span>
-      <div>
-        <p class="blog-title">Why I switched from REST to tRPC for my next SaaS</p>
-        <p class="blog-cat">Architecture</p>
-      </div>
-    </a>
-
-    <a class="blog-item" href="#">
-      <span class="blog-date">May 2025</span>
-      <div>
-        <p class="blog-title">React Native vs Flutter in 2025 — a pragmatic take</p>
-        <p class="blog-cat">Mobile</p>
-      </div>
-    </a>
-
-    <a class="blog-item" href="#">
-      <span class="blog-date">Apr 2025</span>
-      <div>
-        <p class="blog-title">Shaving 2 seconds off my app's cold start time</p>
-        <p class="blog-cat">Performance</p>
-      </div>
-    </a>
-
-    <a class="blog-item" href="#">
-      <span class="blog-date">Feb 2025</span>
-      <div>
-        <p class="blog-title">The case for boring technology in early-stage products</p>
-        <p class="blog-cat">Opinion</p>
-      </div>
-    </a>
-
+  <div class="blog-list" id="blogList">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;">Loading posts…</p>
   </div>
 </div>
 
 <footer>
-  <span>© 2026 <span class="brand-footer">Xenon</span></span>
-  <span>Human Being</span>
+  <span>© 2025 Your Name</span>
+  <span>Web &amp; App Developer</span>
 </footer>
 
+<script>
+async function loadBlogPosts() {
+  const el = document.getElementById('blogList');
+  try {
+    const res  = await fetch('/api/posts');
+    const data = await res.json();
+    const posts = data.posts || [];
+    if (!posts.length) {
+      el.innerHTML = '<p style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;">No posts yet.</p>';
+      return;
+    }
+    el.innerHTML = posts.map(p => {
+      const date = new Date(p.date).toLocaleDateString('en-IN', { month:'short', year:'numeric' });
+      return `<a class="blog-item" href="/api/post-page?slug=${p.slug}">
+        <span class="blog-date">${date}</span>
+        <div>
+          <p class="blog-title">${p.title}</p>
+          <p class="blog-cat">${p.category}</p>
+        </div>
+      </a>`;
+    }).join('');
+  } catch {
+    el.innerHTML = '<p style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;">Failed to load posts.</p>';
+  }
+}
+loadBlogPosts();
+</script>
 </body>
 </html>
