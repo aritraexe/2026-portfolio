@@ -516,8 +516,7 @@ document.addEventListener("mousemove",e=>{
 function animatePage(){
   currentX+=(targetX-currentX)*0.06;
   currentY+=(targetY-currentY)*0.06;
-  const jitter=Math.sin(Date.now()*0.004)*0.4;
-  wrapper.style.transform=`translate(${currentX+jitter}px,${currentY+jitter}px)`;
+  wrapper.style.transform=`translate(${currentX}px,${currentY}px)`;
   requestAnimationFrame(animatePage);
 }
 animatePage();
