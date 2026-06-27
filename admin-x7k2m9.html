@@ -206,7 +206,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
     <div class="field-row">
       <div class="field">
         <label>Banner Type <span style="font-weight:300">(optional)</span></label>
-        <select id="fBannerType">
+        <select id="fBannerType" onchange="autoFillBanner()">
           <option value="">None</option>
           <option value="wip">🚧 Work in Progress</option>
           <option value="info">ℹ️ Info</option>
@@ -396,6 +396,22 @@ async function loadPosts() {
   } catch {
     el.innerHTML = '<p class="no-posts">Failed to load posts.</p>';
   }
+}
+
+// ── BANNER AUTO-FILL ──
+const BANNER_DEFAULTS = {
+  wip:        "This post is a work in progress. Content and details will be updated soon.",
+  info:       "Just a heads up — some context worth knowing before reading.",
+  warning:    "Caution: proceed carefully. Some parts of this may not work as expected.",
+  tip:        "Pro tip — this little detail can save you a lot of time.",
+  update:     "This post has been updated. Some information may differ from the original.",
+  deprecated: "Heads up — this content is outdated and may no longer be accurate.",
+};
+function autoFillBanner() {
+  const type = document.getElementById('fBannerType').value;
+  const msgEl = document.getElementById('fBannerMsg');
+  msgEl.value = type ? BANNER_DEFAULTS[type] || '' : '';
+  msgEl.focus();
 }
 
 // ── DELETE ──
