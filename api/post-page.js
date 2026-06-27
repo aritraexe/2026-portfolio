@@ -160,10 +160,6 @@ export default async function handler(req, res) {
     <a class="back-to-writing" href="/blog.html">← All posts</a>
   </div>
 </div>
-<footer>
-  <span>© 2026 Xenon</span>
-  <span>Human Being</span>
-</footer>
 </body>
 </html>`;
 
