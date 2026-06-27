@@ -66,7 +66,7 @@ async function loadBlogPosts() {
     const data = await res.json();
     const posts = data.posts || [];
     if (!posts.length) {
-      el.innerHTML = '<p style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;">No posts yet.</p>';
+      el.innerHTML = "<p style=\"font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;\">No posts yet.</p>";
       return;
     }
     el.innerHTML = posts.map(p => {
@@ -80,7 +80,7 @@ async function loadBlogPosts() {
       </a>`;
     }).join('');
   } catch {
-    el.innerHTML = '<p style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;">Failed to load posts.</p>';
+    el.innerHTML = "<p style=\"font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--muted);padding:1rem 0;\">Failed to load posts.</p>";
   }
 }
 loadBlogPosts();
