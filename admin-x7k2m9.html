@@ -142,6 +142,8 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
   #adminPanel { padding: 2rem 1.2rem 4rem; }
   .field-row { grid-template-columns: 1fr; }
 }
+
+.tb-btn.uploading { opacity: 0.5; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -232,6 +234,9 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
         <button class="tb-btn" onclick="wrap('`','`')">Code</button>
         <button class="tb-btn" onclick="insertList()">List</button>
         <button class="tb-btn" onclick="insertDivider()">Divider</button>
+        <button class="tb-btn" onclick="triggerImageUpload()" id="imgUploadBtn">📷 Image</button>
+        <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="uploadImage(this)"/>
+        <span id="imgUploadStatus" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);align-self:center;"></span>
       </div>
       <textarea id="fBody" placeholder="Write your post content here. Use ## for headings, **bold**, *italic*, `code`, and - for bullet lists."></textarea>
       <p class="field-hint">Markdown-style formatting supported. Use ## Heading, **bold**, *italic*, `code`, - list item</p>
@@ -412,6 +417,64 @@ function autoFillBanner() {
   const msgEl = document.getElementById('fBannerMsg');
   msgEl.value = type ? BANNER_DEFAULTS[type] || '' : '';
   msgEl.focus();
+}
+
+// ── IMAGE UPLOAD (Cloudinary) ──
+const CLOUDINARY_CLOUD  = 'dw38typxl';
+const CLOUDINARY_PRESET = 'nx7evrcy';
+
+function triggerImageUpload() {
+  document.getElementById('imageFileInput').click();
+}
+
+async function uploadImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const btn    = document.getElementById('imgUploadBtn');
+  const status = document.getElementById('imgUploadStatus');
+  const ta     = document.getElementById('fBody');
+
+  btn.textContent = '⏳ Uploading…';
+  btn.classList.add('uploading');
+  status.textContent = '';
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_PRESET);
+
+  try {
+    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+    if (!data.secure_url) throw new Error('Upload failed');
+
+    // Insert markdown image at cursor position
+    const url     = data.secure_url;
+    const altText = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    const mdImg   = `
+
+![${altText}](${url})
+
+`;
+    const pos     = ta.selectionStart;
+    ta.value      = ta.value.substring(0, pos) + mdImg + ta.value.substring(pos);
+    ta.focus();
+    ta.selectionStart = ta.selectionEnd = pos + mdImg.length;
+
+    status.textContent = '✓ Uploaded';
+    status.style.color = '#4caf7d';
+    setTimeout(() => { status.textContent = ''; }, 3000);
+  } catch (err) {
+    status.textContent = '✗ Upload failed';
+    status.style.color = '#e05252';
+  } finally {
+    btn.textContent = '📷 Image';
+    btn.classList.remove('uploading');
+    input.value = '';
+  }
 }
 
 // ── DELETE ──

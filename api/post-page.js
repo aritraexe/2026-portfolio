@@ -37,6 +37,13 @@ export default async function handler(req, res) {
           const items = block.split('\n').map(l => `<li>${inlineFormat(esc(l.slice(2)))}</li>`).join('');
           return `<ul>${items}</ul>`;
         }
+        // image paragraph — single image line
+        const imgMatch = block.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (imgMatch) {
+          const alt = imgMatch[1] || 'image';
+          const src = imgMatch[2];
+          return `<img src="${src}" alt="${alt}" loading="lazy"/>${alt ? `<p class="post-img-caption">${alt}</p>` : ''}`;
+        }
         return `<p>${inlineFormat(esc(block).replace(/\n/g,'<br/>'))}</p>`;
       }).join('\n');
   }
@@ -45,6 +52,7 @@ export default async function handler(req, res) {
 
   function inlineFormat(s) {
     return s
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy" style="max-width:100%;border-radius:6px;border:1px solid var(--border);"/>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/`(.+?)`/g, '<code>$1</code>');
@@ -102,6 +110,8 @@ export default async function handler(req, res) {
 .post-body ul li{margin-bottom:.5rem;color:var(--muted);line-height:1.7;}
 .post-body code{font-family:'IBM Plex Mono',monospace;font-size:.82rem;background:var(--bg2);border:1px solid var(--border);padding:.15rem .45rem;border-radius:3px;color:var(--text);}
 .post-body strong{color:var(--text);font-weight:600;}
+.post-body img{width:100%;max-width:100%;border-radius:6px;border:1px solid var(--border);margin:0.5rem 0;display:block;}
+.post-img-caption{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);text-align:center;margin-top:-0.3rem;margin-bottom:1rem;}
 .banner{display:flex;align-items:flex-start;gap:.9rem;border-radius:6px;padding:1rem 1.2rem;margin-bottom:2rem;font-size:.88rem;line-height:1.65;}
 .banner-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
 .banner-wip{background:rgba(250,200,50,.07);border:1px solid rgba(250,200,50,.2);color:#c8a830;}
