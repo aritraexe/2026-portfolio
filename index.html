@@ -66,6 +66,67 @@
   font-family: 'Racing Sans One', cursive;
   font-size: 0.7rem; color: var(--muted);
   margin-bottom: 1.6rem;
+  position: relative;
+}
+.status-text-hover {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.status-text-hover:hover {
+  color: var(--text);
+}
+.discord-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.6rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 10001;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.discord-popup.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.discord-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.discord-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.discord-username {
+  font-size: 0.75rem;
+  color: var(--text);
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}
+.discord-link {
+  font-size: 0.65rem;
+  color: var(--muted);
+  transition: color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.discord-popup:hover .discord-link {
+  color: var(--text);
 }
 .status-dot {
   width: 7px; height: 7px;
@@ -359,7 +420,14 @@ html, body{ overflow-x: hidden; }
       <div class="presence-stack">
         <div class="hero-status" id="discordStatus">
           <span class="status-dot" id="statusDot"></span>
-          <span id="statusText">Connecting...</span>
+          <span id="statusText" class="status-text-hover">Connecting...</span>
+          <div id="discordPopup" class="discord-popup">
+            <img id="discordAvatar" src="" alt="Avatar" class="discord-avatar"/>
+            <div class="discord-info">
+              <div id="discordUsername" class="discord-username"></div>
+              <div class="discord-link">View Profile →</div>
+            </div>
+          </div>
         </div>
         <div id="spotifyWidget" class="spotify-widget">
           <span class="spotify-offline">Loading Spotify...</span>
@@ -445,15 +513,51 @@ const DISCORD_ID = "471288359269171201";
 
 async function updatePresence() {
   try {
-    const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+    const response = await fetch(`https://api.lanyard.rest/v1/users/471288359269171201`);
     const result = await response.json();
     if (!result.success) return;
     const data = result.data;
     const dot  = document.getElementById("statusDot");
     const text = document.getElementById("statusText");
-    dot.className = "status-dot " + (data.discord_status || "offline");
+    const status = data.discord_status || "offline";
+    dot.className = "status-dot " + status;
     const labels = { online:"Online", idle:"Idle", dnd:"Do Not Disturb", offline:"Offline" };
-    text.textContent = labels[data.discord_status] || "Offline";
+    
+    if (status !== "offline") {
+      localStorage.setItem("lastSeenTime", Date.now().toString());
+      text.textContent = labels[status] || "Offline";
+    } else {
+      const lastSeen = localStorage.getItem("lastSeenTime");
+      if (lastSeen) {
+        const diff = Date.now() - parseInt(lastSeen);
+        const hours = Math.floor(diff / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        let timeAgo = "";
+        if (hours > 0) {
+          timeAgo = hours === 1 ? "1 hour ago" : `${hours} hours ago`;
+        } else if (mins > 0) {
+          timeAgo = mins === 1 ? "1 min ago" : `${mins} mins ago`;
+        } else {
+          timeAgo = "Just now";
+        }
+        text.textContent = `Offline • Last seen ${timeAgo}`;
+      } else {
+        text.textContent = labels[status] || "Offline";
+      }
+    }
+    
+    // Update Discord popup
+    if (data.user) {
+      const avatar = data.user.avatar;
+      const userId = data.user.id;
+      const username = data.user.username;
+      const avatarUrl = `https://cdn.discordapp.com/avatars/${userId}/${avatar}.png`;
+      
+      document.getElementById("discordAvatar").src = avatarUrl;
+      document.getElementById("discordUsername").textContent = username;
+      document.getElementById("discordPopup").dataset.userId = userId;
+    }
+    
     const spotify = document.getElementById("spotifyWidget");
     if (!data.listening_to_spotify || !data.spotify) {
       spotify.innerHTML = `<div class="spotify-meta"><span class="spotify-label">Spotify</span><span class="spotify-offline">Currently not listening</span></div>`;
@@ -467,6 +571,36 @@ async function updatePresence() {
 }
 updatePresence();
 setInterval(updatePresence, 10000);
+
+// Setup Discord popup hover and click listeners
+document.addEventListener("DOMContentLoaded", () => {
+  const statusText = document.getElementById("statusText");
+  const popup = document.getElementById("discordPopup");
+
+  statusText.addEventListener("mouseenter", () => {
+    popup.classList.add("show");
+  });
+
+  statusText.addEventListener("mouseleave", () => {
+    popup.classList.remove("show");
+  });
+
+  popup.addEventListener("mouseenter", () => {
+    popup.classList.add("show");
+  });
+
+  popup.addEventListener("mouseleave", () => {
+    popup.classList.remove("show");
+  });
+
+  popup.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const userId = popup.dataset.userId;
+    if (userId) {
+      window.open(`https://discord.com/users/${userId}`, "_blank");
+    }
+  });
+});
 </script>
 
 <script>
