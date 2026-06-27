@@ -54,6 +54,23 @@ export default async function handler(req, res) {
   const words = post.body.split(/\s+/).length;
   const readTime = Math.max(1, Math.ceil(words / 200));
   const tagsHtml = (post.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+  const bannerConfig = {
+    wip:        { icon: '🚧', label: 'Work in Progress', cls: 'banner-wip' },
+    info:       { icon: 'ℹ️',  label: 'Info',             cls: 'banner-info' },
+    warning:    { icon: '⚠️',  label: 'Warning',          cls: 'banner-warning' },
+    tip:        { icon: '💡', label: 'Tip',              cls: 'banner-tip' },
+    update:     { icon: '🔄', label: 'Updated',          cls: 'banner-update' },
+    deprecated: { icon: '❌', label: 'Deprecated',       cls: 'banner-deprecated' },
+  };
+
+  const bannerHtml = post.bannerType && bannerConfig[post.bannerType]
+    ? (() => {
+        const cfg = bannerConfig[post.bannerType];
+        const msg = post.bannerMsg || cfg.label;
+        return `<div class="banner ${cfg.cls}"><span class="banner-icon">${cfg.icon}</span><span>${msg}</span></div>`;
+      })()
+    : '';
+
   const bodyHtml = mdToHtml(post.body);
 
   const html = `<!DOCTYPE html>
@@ -85,6 +102,14 @@ export default async function handler(req, res) {
 .post-body ul li{margin-bottom:.5rem;color:var(--muted);line-height:1.7;}
 .post-body code{font-family:'IBM Plex Mono',monospace;font-size:.82rem;background:var(--bg2);border:1px solid var(--border);padding:.15rem .45rem;border-radius:3px;color:var(--text);}
 .post-body strong{color:var(--text);font-weight:600;}
+.banner{display:flex;align-items:flex-start;gap:.9rem;border-radius:6px;padding:1rem 1.2rem;margin-bottom:2rem;font-size:.88rem;line-height:1.65;}
+.banner-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.banner-wip{background:rgba(250,200,50,.07);border:1px solid rgba(250,200,50,.2);color:#c8a830;}
+.banner-info{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);color:#60a5fa;}
+.banner-warning{background:rgba(240,167,50,.07);border:1px solid rgba(240,167,50,.2);color:#f0a732;}
+.banner-tip{background:rgba(76,175,125,.07);border:1px solid rgba(76,175,125,.2);color:#4caf7d;}
+.banner-update{background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);color:#a78bfa;}
+.banner-deprecated{background:rgba(224,82,82,.07);border:1px solid rgba(224,82,82,.2);color:#e05252;}
 .post-footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
 .post-footer-label{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted);}
 .back-to-writing{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s;}
@@ -118,6 +143,7 @@ export default async function handler(req, res) {
     </div>
   </div>
   ${tagsHtml ? `<div class="tag-row">${tagsHtml}</div>` : ''}
+  ${bannerHtml}
   <div class="post-body">${bodyHtml}</div>
   <div class="post-footer">
     <span class="post-footer-label">© 2026 Xenon</span>

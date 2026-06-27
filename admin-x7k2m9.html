@@ -203,6 +203,25 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
       <input type="text" id="fTags" placeholder="e.g. Discord.js, Node.js, MongoDB"/>
     </div>
 
+    <div class="field-row">
+      <div class="field">
+        <label>Banner Type <span style="font-weight:300">(optional)</span></label>
+        <select id="fBannerType">
+          <option value="">None</option>
+          <option value="wip">🚧 Work in Progress</option>
+          <option value="info">ℹ️ Info</option>
+          <option value="warning">⚠️ Warning</option>
+          <option value="tip">💡 Tip</option>
+          <option value="update">🔄 Update</option>
+          <option value="deprecated">❌ Deprecated</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Banner Message <span style="font-weight:300">(optional)</span></label>
+        <input type="text" id="fBannerMsg" placeholder="e.g. Tutorial coming soon!"/>
+      </div>
+    </div>
+
     <div class="field">
       <label>Body *</label>
       <div class="editor-toolbar">
@@ -344,7 +363,8 @@ async function publishPost() {
     status.textContent = '✓ Published — ' + data.slug;
     status.style.color = '#4caf7d';
     // Clear form
-    ['fTitle','fSubtitle','fTags','fBody'].forEach(id => document.getElementById(id).value = '');
+    ['fTitle','fSubtitle','fTags','fBody','fBannerMsg'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('fBannerType').value = '';
     loadPosts();
   } catch (err) {
     status.textContent = '✗ ' + (err.message || 'Failed to publish.');

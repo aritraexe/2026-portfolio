@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
   // ── POST — create new post ───────────────────────────────────────
   if (req.method === 'POST') {
-    const { title, subtitle, category, body, tags } = req.body;
+    const { title, subtitle, category, body, tags, bannerType, bannerMsg } = req.body;
     if (!title || !body) return res.status(400).json({ error: 'Title and body required.' });
 
     const slug = title.toLowerCase()
@@ -40,14 +40,16 @@ export default async function handler(req, res) {
       .trim().replace(/\s+/g, '-');
 
     const post = {
-      id:       Date.now().toString(),
+      id:         Date.now().toString(),
       slug,
       title,
-      subtitle: subtitle || '',
-      category: category || 'General',
-      tags:     tags || [],
+      subtitle:   subtitle || '',
+      category:   category || 'General',
+      tags:       tags || [],
       body,
-      date:     new Date().toISOString(),
+      bannerType: bannerType || '',
+      bannerMsg:  bannerMsg  || '',
+      date:       new Date().toISOString(),
     };
 
     await redis('LPUSH', 'blog:posts', JSON.stringify(post));
