@@ -412,7 +412,8 @@ async function loadPosts() {
           <p class="post-row-meta">${new Date(p.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} · ${p.category}</p>
         </div>
         <div class="post-row-actions">
-          <a class="btn-view" href="blog/${p.slug}.html" target="_blank">View ↗</a>
+          <a class="btn-view" href="/api/post-page?slug=${p.slug}" target="_blank">View ↗</a>
+          <button class="btn-view" style="cursor:pointer;" onclick='editPost(${JSON.stringify(p)})'>Edit</button>
           <button class="btn-delete" onclick="deletePost('${p.id}','${p.title.replace(/'/g,"\\'")}')">Delete</button>
         </div>
       </div>
