@@ -135,5 +135,52 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true });
   }
 
+  // ── PUT — edit existing post ────────────────────────────────────
+  if (req.method === 'PUT') {
+    const { id, title, subtitle, category, body, tags, bannerType, bannerMsg } = req.body;
+    if (!id || !title || !body) {
+      return res.status(400).json({ error: 'id, title and body required.' });
+    }
+
+    const posts  = await getAllPosts();
+    const idx    = posts.findIndex(p => p.id === id);
+    if (idx === -1) return res.status(404).json({ error: 'Post not found.' });
+
+    const original = posts[idx];
+    const slug = title.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-');
+
+    const updated = {
+      ...original,
+      slug,
+      title,
+      subtitle:   subtitle   || '',
+      category:   category   || 'General',
+      tags:       tags       || [],
+      body,
+      bannerType: bannerType || '',
+      bannerMsg:  bannerMsg  || '',
+      updatedAt:  new Date().toISOString(),
+    };
+
+    // Remove old entry and reinsert updated one at same position
+    // Redis: delete old, push all back in correct order
+    await redis('DEL', 'blog:posts');
+    const newList = [...posts];
+    newList[idx] = updated;
+    // RPUSH to maintain order (newest first after reversal)
+    for (let i = newList.length - 1; i >= 0; i--) {
+      await redis('RPUSH', 'blog:posts', JSON.stringify(newList[i]));
+    }
+
+    // Sync to GitHub
+    const allPosts = await getAllPosts();
+    await syncToGitHub(allPosts);
+
+    return res.status(200).json({ success: true, slug });
+  }
+
   return res.status(405).json({ error: 'Method not allowed.' });
 }

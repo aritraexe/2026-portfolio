@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Admin — Xenon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Racing+Sans+One:wght@300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root { --bg:#0b0b0b; --bg2:#0f0f0f; --text:#ffffff; --muted:#bfbfbf; --border:#222222; --accent:#4caf7d; }
@@ -23,13 +23,13 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
   border-radius: 10px; padding: 2.2rem 2rem;
 }
 .login-logo {
-  font-family: 'Racing Sans One', cursive; font-size: 0.72rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
   color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
   margin-bottom: 1.5rem;
 }
 .login-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.8rem; }
 .login-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.login-field label { font-family:'Racing Sans One',cursive; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+.login-field label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
 .login-field input {
   background: var(--bg); border: 1px solid var(--border);
   color: var(--text); padding: 0.7rem 0.9rem;
@@ -38,7 +38,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
   transition: border-color 0.2s;
 }
 .login-field input:focus { border-color: var(--accent); }
-.login-err { font-family:'Racing Sans One',cursive; font-size:0.7rem; color:#e05252; margin-top:0.3rem; display:none; }
+.login-err { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:#e05252; margin-top:0.3rem; display:none; }
 .btn-primary {
   width: 100%; background: var(--accent); color: #000;
   border: none; padding: 0.75rem; font-family:'Inter',sans-serif;
@@ -56,10 +56,16 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
   border-bottom: 1px solid var(--border);
 }
 .admin-title { font-size: 1.1rem; font-weight: 600; }
-.admin-meta { font-family:'Racing Sans One',cursive; font-size:0.7rem; color:var(--muted); }
+.admin-meta { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--muted); }
+.btn-export {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 0.38rem 0.85rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem;
+  border-radius: 4px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.btn-export:hover { border-color: var(--accent); color: var(--accent); }
 .btn-logout {
   background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.4rem 0.9rem; font-family:'Racing Sans One',cursive; font-size:0.7rem;
+  padding: 0.4rem 0.9rem; font-family:'IBM Plex Mono',monospace; font-size:0.7rem;
   border-radius: 4px; cursor: pointer; transition: all 0.2s;
 }
 .btn-logout:hover { border-color: #e05252; color: #e05252; }
@@ -67,13 +73,13 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
 /* FORM */
 .form-section { margin-bottom: 3rem; }
 .form-section-title {
-  font-family:'Racing Sans One',cursive; font-size:0.68rem; color:var(--muted);
+  font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--muted);
   letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.4rem;
   display:flex; align-items:center; gap:0.5rem;
 }
 .form-section-title::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); }
 .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.field label { font-family:'Racing Sans One',cursive; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+.field label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
 .field input, .field select, .field textarea {
   background: var(--bg2); border: 1px solid var(--border);
   color: var(--text); padding: 0.72rem 0.9rem;
@@ -85,7 +91,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
 .field select option { background: var(--bg2); }
 .field textarea { min-height: 280px; font-size: 0.87rem; line-height: 1.7; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.field-hint { font-family:'Racing Sans One',cursive; font-size:0.62rem; color:var(--muted); margin-top:0.3rem; }
+.field-hint { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; color:var(--muted); margin-top:0.3rem; }
 
 /* TOOLBAR */
 .editor-toolbar {
@@ -95,7 +101,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
 .tb-btn {
   background: var(--bg2); border: 1px solid var(--border);
   color: var(--muted); padding: 0.3rem 0.65rem;
-  font-family:'Racing Sans One',cursive; font-size:0.68rem;
+  font-family:'IBM Plex Mono',monospace; font-size:0.68rem;
   border-radius: 3px; cursor: pointer; transition: all 0.2s;
 }
 .tb-btn:hover { border-color: var(--accent); color: var(--text); }
@@ -109,7 +115,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
   border-radius: 4px; cursor: pointer; transition: opacity 0.2s;
 }
 .btn-publish:hover { opacity: 0.85; }
-.publish-status { font-family:'Racing Sans One',cursive; font-size:0.75rem; color:var(--muted); }
+.publish-status { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted); }
 
 /* POSTS LIST */
 .posts-list { display: flex; flex-direction: column; gap: 0; }
@@ -121,22 +127,22 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
 .post-row:first-child { border-top: 1px solid var(--border); }
 .post-row-info { flex: 1; min-width: 0; }
 .post-row-title { font-size: 0.88rem; font-weight: 500; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.post-row-meta { font-family:'Racing Sans One',cursive; font-size:0.65rem; color:var(--muted); }
+.post-row-meta { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); }
 .post-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
 .btn-view {
   background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.3rem 0.7rem; font-family:'Racing Sans One',cursive; font-size:0.65rem;
+  padding: 0.3rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
   border-radius: 3px; cursor: pointer; text-decoration: none;
   transition: all 0.2s; display: inline-flex; align-items: center;
 }
 .btn-view:hover { border-color: var(--muted); color: var(--text); }
 .btn-delete {
   background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.3rem 0.7rem; font-family:'Racing Sans One',cursive; font-size:0.65rem;
+  padding: 0.3rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
   border-radius: 3px; cursor: pointer; transition: all 0.2s;
 }
 .btn-delete:hover { border-color: #e05252; color: #e05252; }
-.no-posts { font-family:'Racing Sans One',cursive; font-size:0.78rem; color:var(--muted); padding: 1.5rem 0; }
+.no-posts { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--muted); padding: 1.5rem 0; }
 
 @media (max-width: 580px) {
   #adminPanel { padding: 2rem 1.2rem 4rem; }
@@ -174,7 +180,11 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
 
   <!-- NEW POST FORM -->
   <div class="form-section">
-    <p class="form-section-title">New Post</p>
+    <p class="form-section-title" id="formSectionTitle">New Post</p>
+    <div id="editBanner" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:0.75rem 1rem;margin-bottom:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);display:none;align-items:center;justify-content:space-between;gap:1rem;">
+      <span>✏️ Editing: <span id="editingTitle" style="color:var(--text);"></span></span>
+      <button onclick="cancelEdit()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:0.25rem 0.65rem;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;border-radius:3px;cursor:pointer;">✕ Cancel</button>
+    </div>
 
     <div class="field-row">
       <div class="field">
@@ -236,21 +246,30 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
         <button class="tb-btn" onclick="insertDivider()">Divider</button>
         <button class="tb-btn" onclick="triggerImageUpload()" id="imgUploadBtn">📷 Image</button>
         <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="uploadImage(this)"/>
-        <span id="imgUploadStatus" style="font-family:'Racing Sans One',cursive;font-size:0.65rem;color:var(--muted);align-self:center;"></span>
+        <span id="imgUploadStatus" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);align-self:center;"></span>
       </div>
       <textarea id="fBody" placeholder="Write your post content here. Use ## for headings, **bold**, *italic*, `code`, and - for bullet lists."></textarea>
       <p class="field-hint">Markdown-style formatting supported. Use ## Heading, **bold**, *italic*, `code`, - list item</p>
     </div>
 
     <div class="publish-row">
-      <button class="btn-publish" onclick="publishPost()">Publish Post →</button>
+      <button class="btn-publish" id="publishBtn" onclick="publishPost()">Publish Post →</button>
       <span class="publish-status" id="publishStatus"></span>
     </div>
   </div>
 
   <!-- EXISTING POSTS -->
   <div class="form-section">
-    <p class="form-section-title">Published Posts</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4rem;">
+      <p class="form-section-title" style="margin-bottom:0;">Published Posts</p>
+      <div style="display:flex;gap:0.6rem;">
+        <button class="btn-export" onclick="exportPosts()">⬇ Export Backup</button>
+        <button class="btn-export" onclick="importPosts()" style="position:relative;">
+          ⬆ Import Backup
+          <input type="file" id="importFileInput" accept=".json" style="position:absolute;inset:0;opacity:0;cursor:pointer;" onchange="handleImport(this)"/>
+        </button>
+      </div>
+    </div>
     <div class="posts-list" id="postsList">
       <p class="no-posts">Loading…</p>
     </div>
@@ -403,6 +422,44 @@ async function loadPosts() {
   }
 }
 
+// ── EDIT STATE ──
+let editingPostId = null;
+
+function editPost(post) {
+  editingPostId = post.id;
+
+  // Fill form with existing data
+  document.getElementById('fTitle').value      = post.title      || '';
+  document.getElementById('fSubtitle').value   = post.subtitle   || '';
+  document.getElementById('fCategory').value   = post.category   || 'General';
+  document.getElementById('fTags').value       = (post.tags || []).join(', ');
+  document.getElementById('fBannerType').value = post.bannerType || '';
+  document.getElementById('fBannerMsg').value  = post.bannerMsg  || '';
+  document.getElementById('fBody').value       = post.body       || '';
+
+  // Update UI
+  document.getElementById('formSectionTitle').textContent = 'Edit Post';
+  document.getElementById('publishBtn').textContent       = 'Save Changes →';
+  document.getElementById('editingTitle').textContent     = post.title;
+  const banner = document.getElementById('editBanner');
+  banner.style.display = 'flex';
+
+  // Scroll to form
+  document.getElementById('fTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.getElementById('fTitle').focus();
+}
+
+function cancelEdit() {
+  editingPostId = null;
+  ['fTitle','fSubtitle','fTags','fBody','fBannerMsg'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fBannerType').value            = '';
+  document.getElementById('fCategory').value              = 'Project Write-up';
+  document.getElementById('formSectionTitle').textContent = 'New Post';
+  document.getElementById('publishBtn').textContent       = 'Publish Post →';
+  document.getElementById('editBanner').style.display     = 'none';
+  document.getElementById('publishStatus').textContent    = '';
+}
+
 // ── BANNER AUTO-FILL ──
 const BANNER_DEFAULTS = {
   wip:        "This post is a work in progress. Content and details will be updated soon.",
@@ -493,6 +550,89 @@ async function deletePost(id, title) {
     alert('Failed to delete: ' + err.message);
   }
 }
+
+// ── EXPORT BACKUP ──
+async function exportPosts() {
+  try {
+    const res  = await fetch('/api/posts');
+    const data = await res.json();
+    const posts = data.posts || [];
+
+    if (!posts.length) {
+      alert('No posts to export yet.');
+      return;
+    }
+
+    const backup = {
+      exported_at: new Date().toISOString(),
+      total: posts.length,
+      posts,
+    };
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    const date = new Date().toISOString().split('T')[0];
+    a.href     = url;
+    a.download = `xenon-blog-backup-${date}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    alert('Export failed: ' + err.message);
+  }
+}
+
+// ── IMPORT BACKUP ──
+function importPosts() {
+  // click handled by the file input inside the button
+}
+
+async function handleImport(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  if (!confirm('This will re-upload all posts from the backup file. Duplicate posts may appear if they already exist. Continue?')) {
+    input.value = ''; return;
+  }
+
+  try {
+    const text   = await file.text();
+    const backup = JSON.parse(text);
+    const posts  = backup.posts || [];
+
+    if (!posts.length) { alert('No posts found in backup file.'); return; }
+
+    let success = 0, failed = 0;
+
+    for (const p of posts) {
+      const res = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SESSION_TOKEN}`,
+        },
+        body: JSON.stringify({
+          title:      p.title,
+          subtitle:   p.subtitle,
+          category:   p.category,
+          tags:       p.tags,
+          body:       p.body,
+          bannerType: p.bannerType,
+          bannerMsg:  p.bannerMsg,
+        }),
+      });
+      res.ok ? success++ : failed++;
+    }
+
+    alert(`Import complete.\n✓ ${success} posts restored${failed ? `\n✗ ${failed} failed` : ''}.`);
+    loadPosts();
+  } catch (err) {
+    alert('Import failed: ' + err.message);
+  } finally {
+    input.value = '';
+  }
+}
+
 </script>
 </body>
 </html>
