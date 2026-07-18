@@ -8,182 +8,352 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --bg:#0b0b0b; --bg2:#0f0f0f; --text:#ffffff; --muted:#bfbfbf; --border:#222222; --accent:#4caf7d; }
-[data-theme="light"] { --bg:#fafaf8; --bg2:#f3f2ef; --text:#1a1917; --muted:#888580; --border:#e0deda; }
-html { scroll-behavior: smooth; }
-body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; min-height:100vh; }
 
-/* LOGIN */
+:root {
+  --bg:     #0b0b0b;
+  --bg2:    #0f0f0f;
+  --text:   #ffffff;
+  --muted:  #bfbfbf;
+  --border: #222222;
+  --accent: #4caf7d;
+}
+[data-theme="light"] {
+  --bg:     #fafaf8;
+  --bg2:    #f3f2ef;
+  --text:   #1a1917;
+  --muted:  #888580;
+  --border: #e0deda;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── LOGIN ── */
 #loginScreen {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 .login-box {
-  width: 100%; max-width: 360px;
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 2.2rem 2rem;
+  width: 100%;
+  max-width: 360px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2.2rem 2rem;
 }
 .login-logo {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
-  color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   margin-bottom: 1.5rem;
 }
 .login-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.8rem; }
 .login-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.login-field label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
+.login-field label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem; color: var(--muted);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
 .login-field input {
-  background: var(--bg); border: 1px solid var(--border);
-  color: var(--text); padding: 0.7rem 0.9rem;
-  font-family: 'Inter',sans-serif; font-size: 0.88rem;
-  border-radius: 4px; outline: none; width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.7rem 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
   transition: border-color 0.2s;
 }
 .login-field input:focus { border-color: var(--accent); }
-.login-err { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:#e05252; margin-top:0.3rem; display:none; }
+.login-err {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: #e05252;
+  margin-top: 0.3rem;
+  display: none;
+}
 .btn-primary {
-  width: 100%; background: var(--accent); color: #000;
-  border: none; padding: 0.75rem; font-family:'Inter',sans-serif;
-  font-size: 0.88rem; font-weight: 600; border-radius: 4px;
-  cursor: pointer; margin-top: 0.5rem; transition: opacity 0.2s;
+  width: 100%;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: opacity 0.2s;
 }
 .btn-primary:hover { opacity: 0.85; }
 
-/* ADMIN PANEL */
-#adminPanel { display: none; max-width: 780px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+/* ── ADMIN PANEL ── */
+#adminPanel {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
 
 .admin-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 2.5rem; padding-bottom: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.2rem;
   border-bottom: 1px solid var(--border);
 }
 .admin-title { font-size: 1.1rem; font-weight: 600; }
-.admin-meta { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--muted); }
-.btn-export {
-  background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.38rem 0.85rem; font-family:'IBM Plex Mono',monospace; font-size:0.68rem;
-  border-radius: 4px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
-}
-.btn-export:hover { border-color: var(--accent); color: var(--accent); }
-.btn-logout {
-  background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.4rem 0.9rem; font-family:'IBM Plex Mono',monospace; font-size:0.7rem;
-  border-radius: 4px; cursor: pointer; transition: all 0.2s;
-}
-.btn-logout:hover { border-color: #e05252; color: #e05252; }
+.admin-meta { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); }
 
-/* FORM */
-.form-section { margin-bottom: 3rem; }
-.form-section-title {
-  font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--muted);
-  letter-spacing:0.1em; text-transform:uppercase; margin-bottom:1.4rem;
-  display:flex; align-items:center; gap:0.5rem;
+.btn-sm {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.38rem 0.85rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  position: relative;
 }
-.form-section-title::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); }
+.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm.danger:hover { border-color: #e05252; color: #e05252; }
+
+/* ── FORM ── */
+.form-section { margin-bottom: 3rem; }
+.section-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-heading::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.edit-notice {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.2rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.edit-notice.visible { display: flex; }
+.edit-notice-title { color: var(--text); font-weight: 500; }
+
 .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.field label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; }
-.field input, .field select, .field textarea {
-  background: var(--bg2); border: 1px solid var(--border);
-  color: var(--text); padding: 0.72rem 0.9rem;
-  font-family: 'Inter',sans-serif; font-size: 0.88rem;
-  border-radius: 4px; outline: none; width: 100%; resize: vertical;
+.field label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.field input,
+.field select,
+.field textarea {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.72rem 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  resize: vertical;
   transition: border-color 0.2s;
 }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+.field input:focus,
+.field select:focus,
+.field textarea:focus { border-color: var(--accent); }
 .field select option { background: var(--bg2); }
 .field textarea { min-height: 280px; font-size: 0.87rem; line-height: 1.7; }
+.field-hint {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.field-hint { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; color:var(--muted); margin-top:0.3rem; }
 
-/* TOOLBAR */
+/* ── TOOLBAR ── */
 .editor-toolbar {
-  display: flex; gap: 0.4rem; flex-wrap: wrap;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
   margin-bottom: 0.5rem;
 }
 .tb-btn {
-  background: var(--bg2); border: 1px solid var(--border);
-  color: var(--muted); padding: 0.3rem 0.65rem;
-  font-family:'IBM Plex Mono',monospace; font-size:0.68rem;
-  border-radius: 3px; cursor: pointer; transition: all 0.2s;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.3rem 0.65rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 .tb-btn:hover { border-color: var(--accent); color: var(--text); }
+.tb-btn:disabled { opacity: 0.4; pointer-events: none; }
 
-/* PUBLISH */
-.publish-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+/* ── PUBLISH ROW ── */
+.publish-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
 .btn-publish {
-  background: var(--accent); color: #000;
-  border: none; padding: 0.75rem 2rem;
-  font-family:'Inter',sans-serif; font-size:0.88rem; font-weight:600;
-  border-radius: 4px; cursor: pointer; transition: opacity 0.2s;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 .btn-publish:hover { opacity: 0.85; }
-.publish-status { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted); }
+.publish-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
 
-/* POSTS LIST */
-.posts-list { display: flex; flex-direction: column; gap: 0; }
+/* ── POSTS LIST ── */
+.posts-list { display: flex; flex-direction: column; }
 .post-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 1rem 0; border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
   gap: 1rem;
 }
 .post-row:first-child { border-top: 1px solid var(--border); }
 .post-row-info { flex: 1; min-width: 0; }
-.post-row-title { font-size: 0.88rem; font-weight: 500; margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.post-row-meta { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--muted); }
+.post-row-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.post-row-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+}
 .post-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
-.btn-view {
-  background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.3rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
-  border-radius: 3px; cursor: pointer; text-decoration: none;
-  transition: all 0.2s; display: inline-flex; align-items: center;
+.btn-action {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.28rem 0.65rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s;
 }
-.btn-view:hover { border-color: var(--muted); color: var(--text); }
-.btn-delete {
-  background: none; border: 1px solid var(--border); color: var(--muted);
-  padding: 0.3rem 0.7rem; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
-  border-radius: 3px; cursor: pointer; transition: all 0.2s;
+.btn-action:hover { border-color: var(--muted); color: var(--text); }
+.btn-action.edit:hover { border-color: var(--accent); color: var(--accent); }
+.btn-action.del:hover { border-color: #e05252; color: #e05252; }
+
+.no-posts {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 1.5rem 0;
 }
-.btn-delete:hover { border-color: #e05252; color: #e05252; }
-.no-posts { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--muted); padding: 1.5rem 0; }
 
 @media (max-width: 580px) {
   #adminPanel { padding: 2rem 1.2rem 4rem; }
   .field-row { grid-template-columns: 1fr; }
+  .post-row { flex-direction: column; align-items: flex-start; }
 }
-
-.tb-btn.uploading { opacity: 0.5; pointer-events: none; }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ── LOGIN ── -->
 <div id="loginScreen">
   <div class="login-box">
     <p class="login-logo">Xenon · Admin</p>
     <h1 class="login-title">Sign in</h1>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="pwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()"/>
+      <input type="password" id="pwInput" placeholder="Enter admin password"
+             onkeydown="if(event.key==='Enter') doLogin()"/>
     </div>
     <p class="login-err" id="loginErr">Incorrect password.</p>
-    <button class="btn-primary" onclick="login()">Continue</button>
+    <button class="btn-primary" onclick="doLogin()">Continue</button>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ── ADMIN PANEL ── -->
 <div id="adminPanel">
+
   <div class="admin-header">
     <div>
       <p class="admin-meta">Xenon · Admin Panel</p>
       <h1 class="admin-title">Blog Manager</h1>
     </div>
-    <button class="btn-logout" onclick="logout()">Sign out</button>
+    <div style="display:flex;gap:0.6rem;align-items:center;">
+      <button class="btn-sm" onclick="doExport()">⬇ Export</button>
+      <label class="btn-sm" style="cursor:pointer;">
+        ⬆ Import
+        <input type="file" accept=".json" style="display:none" onchange="doImport(this)"/>
+      </label>
+      <button class="btn-sm danger" onclick="doLogout()">Sign out</button>
+    </div>
   </div>
 
-  <!-- NEW POST FORM -->
+  <!-- FORM -->
   <div class="form-section">
-    <p class="form-section-title" id="formSectionTitle">New Post</p>
-    <div id="editBanner" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:0.75rem 1rem;margin-bottom:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);display:none;align-items:center;justify-content:space-between;gap:1rem;">
-      <span>✏️ Editing: <span id="editingTitle" style="color:var(--text);"></span></span>
-      <button onclick="cancelEdit()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:0.25rem 0.65rem;font-family:'IBM Plex Mono',monospace;font-size:0.65rem;border-radius:3px;cursor:pointer;">✕ Cancel</button>
+    <p class="section-heading" id="formHeading">New Post</p>
+
+    <div class="edit-notice" id="editNotice">
+      <span>✏️ Editing: <span class="edit-notice-title" id="editNoticeTitle"></span></span>
+      <button class="btn-sm" onclick="resetForm()">✕ Cancel edit</button>
     </div>
 
     <div class="field-row">
@@ -207,7 +377,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
 
     <div class="field">
       <label>Subtitle</label>
-      <input type="text" id="fSubtitle" placeholder="A short description shown in the listing"/>
+      <input type="text" id="fSubtitle" placeholder="Short description shown in listing"/>
     </div>
 
     <div class="field">
@@ -218,7 +388,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
     <div class="field-row">
       <div class="field">
         <label>Banner Type <span style="font-weight:300">(optional)</span></label>
-        <select id="fBannerType" onchange="autoFillBanner()">
+        <select id="fBannerType" onchange="onBannerChange()">
           <option value="">None</option>
           <option value="wip">🚧 Work in Progress</option>
           <option value="info">ℹ️ Info</option>
@@ -229,359 +399,360 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; 
         </select>
       </div>
       <div class="field">
-        <label>Banner Message <span style="font-weight:300">(optional)</span></label>
-        <input type="text" id="fBannerMsg" placeholder="e.g. Tutorial coming soon!"/>
+        <label>Banner Message <span style="font-weight:300">(auto-filled)</span></label>
+        <input type="text" id="fBannerMsg" placeholder="Leave blank to use default"/>
       </div>
     </div>
 
     <div class="field">
       <label>Body *</label>
       <div class="editor-toolbar">
-        <button class="tb-btn" onclick="wrap('## ','')">H2</button>
-        <button class="tb-btn" onclick="wrap('### ','')">H3</button>
-        <button class="tb-btn" onclick="wrap('**','**')">Bold</button>
-        <button class="tb-btn" onclick="wrap('*','*')">Italic</button>
-        <button class="tb-btn" onclick="wrap('`','`')">Code</button>
-        <button class="tb-btn" onclick="insertList()">List</button>
-        <button class="tb-btn" onclick="insertDivider()">Divider</button>
-        <button class="tb-btn" onclick="triggerImageUpload()" id="imgUploadBtn">📷 Image</button>
-        <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="uploadImage(this)"/>
-        <span id="imgUploadStatus" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);align-self:center;"></span>
+        <button class="tb-btn" onclick="tbWrap('## ','')">H2</button>
+        <button class="tb-btn" onclick="tbWrap('### ','')">H3</button>
+        <button class="tb-btn" onclick="tbWrap('**','**')">Bold</button>
+        <button class="tb-btn" onclick="tbWrap('*','*')">Italic</button>
+        <button class="tb-btn" onclick="tbWrap('`','`')">Code</button>
+        <button class="tb-btn" onclick="tbList()">List</button>
+        <button class="tb-btn" onclick="tbDivider()">Divider</button>
+        <button class="tb-btn" id="imgBtn" onclick="document.getElementById('imgInput').click()">📷 Image</button>
+        <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="doImageUpload(this)"/>
+        <span id="imgStatus" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);align-self:center;"></span>
       </div>
-      <textarea id="fBody" placeholder="Write your post content here. Use ## for headings, **bold**, *italic*, `code`, and - for bullet lists."></textarea>
-      <p class="field-hint">Markdown-style formatting supported. Use ## Heading, **bold**, *italic*, `code`, - list item</p>
+      <textarea id="fBody" placeholder="Write your post here. Use ## for headings, **bold**, *italic*, `code`, and - for lists."></textarea>
+      <p class="field-hint">## H2 · ### H3 · **bold** · *italic* · `code` · - list item · ![alt](url) for images</p>
     </div>
 
     <div class="publish-row">
-      <button class="btn-publish" id="publishBtn" onclick="publishPost()">Publish Post →</button>
+      <button class="btn-publish" id="publishBtn" onclick="doPublish()">Publish Post →</button>
       <span class="publish-status" id="publishStatus"></span>
     </div>
   </div>
 
-  <!-- EXISTING POSTS -->
+  <!-- POSTS LIST -->
   <div class="form-section">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4rem;">
-      <p class="form-section-title" style="margin-bottom:0;">Published Posts</p>
-      <div style="display:flex;gap:0.6rem;">
-        <button class="btn-export" onclick="exportPosts()">⬇ Export Backup</button>
-        <button class="btn-export" onclick="importPosts()" style="position:relative;">
-          ⬆ Import Backup
-          <input type="file" id="importFileInput" accept=".json" style="position:absolute;inset:0;opacity:0;cursor:pointer;" onchange="handleImport(this)"/>
-        </button>
-      </div>
+      <p class="section-heading" style="margin-bottom:0;">Published Posts</p>
     </div>
     <div class="posts-list" id="postsList">
       <p class="no-posts">Loading…</p>
     </div>
   </div>
+
 </div>
 
 <script>
-const PASS_HASH = '8e3b5a2c7f1d4e6a9b0c2d5e8f3a1b4c7d0e2f5a8b1c4d7e0f3a6b9c2d5e8f1'; // placeholder, checked server-side
-let SESSION_TOKEN = null;
+'use strict';
 
-function login() {
-  const pw = document.getElementById('pwInput').value;
-  // Simple client-side check — real auth is on the API
-  // We just store it and let the API reject if wrong
+// ── STATE ──────────────────────────────────────────────────────────
+let TOKEN      = null;   // admin password used as bearer token
+let EDITING_ID = null;   // id of post being edited, or null
+
+// ── BANNER DEFAULTS ────────────────────────────────────────────────
+const BANNER_DEFAULTS = {
+  wip:        'This post is a work in progress. Content and details will be updated soon.',
+  info:       'Just a heads up — some context worth knowing before reading.',
+  warning:    'Caution: proceed carefully. Some parts of this may not work as expected.',
+  tip:        'Pro tip — this little detail can save you a lot of time.',
+  update:     'This post has been updated. Some information may differ from the original.',
+  deprecated: 'Heads up — this content is outdated and may no longer be accurate.',
+};
+
+// ── CLOUDINARY ─────────────────────────────────────────────────────
+const CLD_CLOUD  = 'dw38typxl';
+const CLD_PRESET = 'nx7evrcy';
+
+// ── INIT ───────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('xenon_admin');
+  if (saved) { TOKEN = saved; showPanel(); }
+});
+
+// ── LOGIN ──────────────────────────────────────────────────────────
+function doLogin() {
+  const pw = document.getElementById('pwInput').value.trim();
   if (!pw) return;
-  SESSION_TOKEN = pw;
-  // Test against API
+
+  // Verify password by hitting the API with a harmless GET
+  // (GET is public but we need to confirm the password works for write ops,
+  //  so we send a quick OPTIONS-style POST with a __ping flag)
   fetch('/api/posts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${pw}` },
-    body: JSON.stringify({ __test: true, title: '__test__', body: '__test__' })
-  }).then(r => {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + pw },
+    body:    JSON.stringify({ __ping: true }),
+  })
+  .then(r => {
     if (r.status === 401) {
       document.getElementById('loginErr').style.display = 'block';
-      SESSION_TOKEN = null;
-    } else {
-      // Auth passed — but we sent a test post, delete it immediately
-      r.json().then(async d => {
-        if (d.slug) {
-          // fetch the post list and delete the test one
-          const lr = await fetch('/api/posts');
-          const ld = await lr.json();
-          const tp = (ld.posts||[]).find(p=>p.title==='__test__');
-          if (tp) await fetch('/api/posts', {
-            method:'DELETE',
-            headers:{'Content-Type':'application/json','Authorization':`Bearer ${pw}`},
-            body: JSON.stringify({id: tp.id})
-          });
-        }
-      });
-      sessionStorage.setItem('xenon_admin', pw);
-      showPanel();
+      return;
     }
-  }).catch(() => {
-    // Network error — still show panel, API will catch it
+    // 200 or 400 both mean auth passed
+    document.getElementById('loginErr').style.display = 'none';
+    TOKEN = pw;
+    sessionStorage.setItem('xenon_admin', pw);
+    showPanel();
+  })
+  .catch(() => {
     document.getElementById('loginErr').style.display = 'block';
   });
 }
 
 function showPanel() {
   document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('adminPanel').style.display = 'block';
+  document.getElementById('adminPanel').style.display  = 'block';
   loadPosts();
 }
 
-function logout() {
+function doLogout() {
+  TOKEN = null;
   sessionStorage.removeItem('xenon_admin');
-  SESSION_TOKEN = null;
+  document.getElementById('adminPanel').style.display  = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('adminPanel').style.display = 'none';
-  document.getElementById('pwInput').value = '';
-  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('pwInput').value             = '';
+  document.getElementById('loginErr').style.display    = 'none';
+  resetForm();
 }
 
-// Check existing session
-window.addEventListener('DOMContentLoaded', () => {
-  const saved = sessionStorage.getItem('xenon_admin');
-  if (saved) { SESSION_TOKEN = saved; showPanel(); }
-});
+// ── FORM HELPERS ───────────────────────────────────────────────────
+function getFormValues() {
+  return {
+    title:      document.getElementById('fTitle').value.trim(),
+    subtitle:   document.getElementById('fSubtitle').value.trim(),
+    category:   document.getElementById('fCategory').value,
+    tags:       document.getElementById('fTags').value.split(',').map(t => t.trim()).filter(Boolean),
+    bannerType: document.getElementById('fBannerType').value,
+    bannerMsg:  document.getElementById('fBannerMsg').value.trim(),
+    body:       document.getElementById('fBody').value.trim(),
+  };
+}
 
-// ── EDITOR HELPERS ──
-function wrap(before, after) {
-  const ta = document.getElementById('fBody');
-  const s = ta.selectionStart, e = ta.selectionEnd;
+function resetForm() {
+  EDITING_ID = null;
+  ['fTitle','fSubtitle','fTags','fBannerMsg','fBody'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('fCategory').value   = 'Project Write-up';
+  document.getElementById('fBannerType').value = '';
+  document.getElementById('formHeading').textContent  = 'New Post';
+  document.getElementById('publishBtn').textContent   = 'Publish Post →';
+  document.getElementById('publishStatus').textContent = '';
+  document.getElementById('editNotice').classList.remove('visible');
+}
+
+function onBannerChange() {
+  const type = document.getElementById('fBannerType').value;
+  document.getElementById('fBannerMsg').value = type ? (BANNER_DEFAULTS[type] || '') : '';
+}
+
+// ── TOOLBAR ────────────────────────────────────────────────────────
+function tbWrap(before, after) {
+  const ta  = document.getElementById('fBody');
+  const s   = ta.selectionStart;
+  const e   = ta.selectionEnd;
   const sel = ta.value.substring(s, e) || 'text';
-  ta.value = ta.value.substring(0, s) + before + sel + after + ta.value.substring(e);
+  ta.value  = ta.value.substring(0, s) + before + sel + after + ta.value.substring(e);
   ta.focus();
+  ta.selectionStart = s + before.length;
+  ta.selectionEnd   = s + before.length + sel.length;
 }
-function insertList() {
-  const ta = document.getElementById('fBody');
+function tbList() {
+  const ta  = document.getElementById('fBody');
   const pos = ta.selectionStart;
   const ins = '\n- Item 1\n- Item 2\n- Item 3\n';
-  ta.value = ta.value.substring(0, pos) + ins + ta.value.substring(pos);
+  ta.value  = ta.value.substring(0, pos) + ins + ta.value.substring(pos);
   ta.focus();
 }
-function insertDivider() {
-  const ta = document.getElementById('fBody');
+function tbDivider() {
+  const ta  = document.getElementById('fBody');
   const pos = ta.selectionStart;
-  ta.value = ta.value.substring(0, pos) + '\n---\n' + ta.value.substring(pos);
+  const ins = '\n\n---\n\n';
+  ta.value  = ta.value.substring(0, pos) + ins + ta.value.substring(pos);
   ta.focus();
 }
 
-// ── PUBLISH / SAVE EDIT ──
-async function publishPost() {
-  const title      = document.getElementById('fTitle').value.trim();
-  const subtitle   = document.getElementById('fSubtitle').value.trim();
-  const category   = document.getElementById('fCategory').value;
-  const tagsRaw    = document.getElementById('fTags').value.trim();
-  const body       = document.getElementById('fBody').value.trim();
-  const bannerType = document.getElementById('fBannerType').value;
-  const bannerMsg  = document.getElementById('fBannerMsg').value.trim();
-  const status     = document.getElementById('publishStatus');
+// ── IMAGE UPLOAD ───────────────────────────────────────────────────
+async function doImageUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
 
-  if (!title || !body) { status.textContent = '⚠ Title and body are required.'; status.style.color='#e05252'; return; }
+  const btn    = document.getElementById('imgBtn');
+  const status = document.getElementById('imgStatus');
+  const ta     = document.getElementById('fBody');
 
-  const tags      = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
-  const isEditing = !!editingPostId;
+  btn.disabled      = true;
+  btn.textContent   = '⏳ Uploading…';
+  status.textContent = '';
 
-  status.textContent = isEditing ? 'Saving…' : 'Publishing…';
-  status.style.color = 'var(--muted)';
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLD_PRESET);
 
   try {
-    const res = await fetch('/api/posts', {
-      method: isEditing ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SESSION_TOKEN}` },
-      body: JSON.stringify({
-        ...(isEditing ? { id: editingPostId } : {}),
-        title, subtitle, category, tags, body, bannerType, bannerMsg
-      }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
-    status.textContent = isEditing ? '✓ Updated — ' + data.slug : '✓ Published — ' + data.slug;
-    status.style.color = '#4caf7d';
-    cancelEdit();
-    loadPosts();
+    const r    = await fetch('https://api.cloudinary.com/v1_1/' + CLD_CLOUD + '/image/upload', { method: 'POST', body: fd });
+    const data = await r.json();
+    if (!data.secure_url) throw new Error('No URL returned');
+
+    const alt = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    const md  = '\n\n![' + alt + '](' + data.secure_url + ')\n\n';
+    const pos = ta.selectionStart;
+    ta.value  = ta.value.substring(0, pos) + md + ta.value.substring(pos);
+    ta.focus();
+
+    status.style.color  = '#4caf7d';
+    status.textContent  = '✓ Uploaded';
+    setTimeout(() => { status.textContent = ''; }, 3000);
   } catch (err) {
-    status.textContent = '✗ ' + (err.message || 'Failed.');
-    status.style.color = '#e05252';
+    status.style.color  = '#e05252';
+    status.textContent  = '✗ Upload failed';
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = '📷 Image';
+    input.value     = '';
   }
 }
 
-// ── LOAD POSTS ──
+// ── PUBLISH / SAVE ─────────────────────────────────────────────────
+async function doPublish() {
+  const vals   = getFormValues();
+  const status = document.getElementById('publishStatus');
+
+  if (!vals.title) { setStatus('⚠ Title is required.', '#e05252'); return; }
+  if (!vals.body)  { setStatus('⚠ Body is required.',  '#e05252'); return; }
+
+  const isEdit = EDITING_ID !== null;
+  setStatus(isEdit ? 'Saving…' : 'Publishing…', 'var(--muted)');
+
+  const payload = { ...vals };
+  if (isEdit) payload.id = EDITING_ID;
+
+  try {
+    const r    = await fetch('/api/posts', {
+      method:  isEdit ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+      body:    JSON.stringify(payload),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Request failed');
+
+    setStatus(isEdit ? '✓ Saved — ' + data.slug : '✓ Published — ' + data.slug, '#4caf7d');
+    resetForm();
+    loadPosts();
+  } catch (err) {
+    setStatus('✗ ' + (err.message || 'Failed.'), '#e05252');
+  }
+}
+
+function setStatus(msg, color) {
+  const el = document.getElementById('publishStatus');
+  el.textContent  = msg;
+  el.style.color  = color;
+}
+
+// ── LOAD POSTS ─────────────────────────────────────────────────────
 async function loadPosts() {
   const el = document.getElementById('postsList');
   el.innerHTML = '<p class="no-posts">Loading…</p>';
+
   try {
-    const res  = await fetch('/api/posts');
-    const data = await res.json();
-    const posts = data.posts || [];
-    if (!posts.length) { el.innerHTML = '<p class="no-posts">No posts yet.</p>'; return; }
-    el.innerHTML = posts.map(p => `
-      <div class="post-row">
-        <div class="post-row-info">
-          <p class="post-row-title">${p.title}</p>
-          <p class="post-row-meta">${new Date(p.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})} · ${p.category}</p>
-        </div>
-        <div class="post-row-actions">
-          <a class="btn-view" href="/api/post-page?slug=${p.slug}" target="_blank">View ↗</a>
-          <button class="btn-view" style="cursor:pointer;" onclick='editPost(${JSON.stringify(p)})'>Edit</button>
-          <button class="btn-delete" onclick="deletePost('${p.id}','${p.title.replace(/'/g,"\\'")}')">Delete</button>
-        </div>
-      </div>
-    `).join('');
-  } catch {
+    const r    = await fetch('/api/posts');
+    const data = await r.json();
+    const list = data.posts || [];
+
+    if (!list.length) {
+      el.innerHTML = '<p class="no-posts">No posts yet.</p>';
+      return;
+    }
+
+    el.innerHTML = list.map(p => {
+      const date    = new Date(p.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+      const updated = p.updatedAt ? ' · edited ' + new Date(p.updatedAt).toLocaleDateString('en-IN', { day:'numeric', month:'short' }) : '';
+      // Safely encode post data for the edit button
+      const encoded = encodeURIComponent(JSON.stringify(p));
+      return '<div class="post-row">'
+        + '<div class="post-row-info">'
+        + '<p class="post-row-title">' + escHtml(p.title) + '</p>'
+        + '<p class="post-row-meta">' + date + updated + ' · ' + escHtml(p.category) + '</p>'
+        + '</div>'
+        + '<div class="post-row-actions">'
+        + '<a class="btn-action" href="/api/post-page?slug=' + p.slug + '" target="_blank">View ↗</a>'
+        + '<button class="btn-action edit" onclick="startEdit(decodeURIComponent(\'' + encoded + '\'))">Edit</button>'
+        + '<button class="btn-action del" onclick="doDelete(\'' + p.id + '\',\'' + escAttr(p.title) + '\')">Delete</button>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+
+  } catch (err) {
     el.innerHTML = '<p class="no-posts">Failed to load posts.</p>';
   }
 }
 
-// ── EDIT STATE ──
-let editingPostId = null;
+// ── EDIT ───────────────────────────────────────────────────────────
+function startEdit(encodedJson) {
+  let post;
+  try { post = JSON.parse(encodedJson); }
+  catch { alert('Could not load post data.'); return; }
 
-function editPost(post) {
-  editingPostId = post.id;
+  EDITING_ID = post.id;
 
-  // Fill form with existing data
   document.getElementById('fTitle').value      = post.title      || '';
   document.getElementById('fSubtitle').value   = post.subtitle   || '';
-  document.getElementById('fCategory').value   = post.category   || 'General';
   document.getElementById('fTags').value       = (post.tags || []).join(', ');
   document.getElementById('fBannerType').value = post.bannerType || '';
   document.getElementById('fBannerMsg').value  = post.bannerMsg  || '';
   document.getElementById('fBody').value       = post.body       || '';
 
-  // Update UI
-  document.getElementById('formSectionTitle').textContent = 'Edit Post';
-  document.getElementById('publishBtn').textContent       = 'Save Changes →';
-  document.getElementById('editingTitle').textContent     = post.title;
-  const banner = document.getElementById('editBanner');
-  banner.style.display = 'flex';
-
-  // Scroll to form
-  document.getElementById('fTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  document.getElementById('fTitle').focus();
-}
-
-function cancelEdit() {
-  editingPostId = null;
-  ['fTitle','fSubtitle','fTags','fBody','fBannerMsg'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('fBannerType').value            = '';
-  document.getElementById('fCategory').value              = 'Project Write-up';
-  document.getElementById('formSectionTitle').textContent = 'New Post';
-  document.getElementById('publishBtn').textContent       = 'Publish Post →';
-  document.getElementById('editBanner').style.display     = 'none';
-  document.getElementById('publishStatus').textContent    = '';
-}
-
-// ── BANNER AUTO-FILL ──
-const BANNER_DEFAULTS = {
-  wip:        "This post is a work in progress. Content and details will be updated soon.",
-  info:       "Just a heads up — some context worth knowing before reading.",
-  warning:    "Caution: proceed carefully. Some parts of this may not work as expected.",
-  tip:        "Pro tip — this little detail can save you a lot of time.",
-  update:     "This post has been updated. Some information may differ from the original.",
-  deprecated: "Heads up — this content is outdated and may no longer be accurate.",
-};
-function autoFillBanner() {
-  const type = document.getElementById('fBannerType').value;
-  const msgEl = document.getElementById('fBannerMsg');
-  msgEl.value = type ? BANNER_DEFAULTS[type] || '' : '';
-  msgEl.focus();
-}
-
-// ── IMAGE UPLOAD (Cloudinary) ──
-const CLOUDINARY_CLOUD  = 'dw38typxl';
-const CLOUDINARY_PRESET = 'nx7evrcy';
-
-function triggerImageUpload() {
-  document.getElementById('imageFileInput').click();
-}
-
-async function uploadImage(input) {
-  const file = input.files[0];
-  if (!file) return;
-
-  const btn    = document.getElementById('imgUploadBtn');
-  const status = document.getElementById('imgUploadStatus');
-  const ta     = document.getElementById('fBody');
-
-  btn.textContent = '⏳ Uploading…';
-  btn.classList.add('uploading');
-  status.textContent = '';
-
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_PRESET);
-
-  try {
-    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-      method: 'POST',
-      body: formData,
-    });
-    const data = await res.json();
-    if (!data.secure_url) throw new Error('Upload failed');
-
-    // Insert markdown image at cursor position
-    const url     = data.secure_url;
-    const altText = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-    const mdImg   = `
-
-![${altText}](${url})
-
-`;
-    const pos     = ta.selectionStart;
-    ta.value      = ta.value.substring(0, pos) + mdImg + ta.value.substring(pos);
-    ta.focus();
-    ta.selectionStart = ta.selectionEnd = pos + mdImg.length;
-
-    status.textContent = '✓ Uploaded';
-    status.style.color = '#4caf7d';
-    setTimeout(() => { status.textContent = ''; }, 3000);
-  } catch (err) {
-    status.textContent = '✗ Upload failed';
-    status.style.color = '#e05252';
-  } finally {
-    btn.textContent = '📷 Image';
-    btn.classList.remove('uploading');
-    input.value = '';
+  // Set category — find matching option
+  const catSelect = document.getElementById('fCategory');
+  for (let i = 0; i < catSelect.options.length; i++) {
+    if (catSelect.options[i].value === post.category) {
+      catSelect.selectedIndex = i;
+      break;
+    }
   }
+
+  document.getElementById('formHeading').textContent        = 'Edit Post';
+  document.getElementById('publishBtn').textContent         = 'Save Changes →';
+  document.getElementById('editNoticeTitle').textContent    = post.title;
+  document.getElementById('editNotice').classList.add('visible');
+  document.getElementById('publishStatus').textContent      = '';
+
+  document.getElementById('fTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => document.getElementById('fTitle').focus(), 400);
 }
 
-// ── DELETE ──
-async function deletePost(id, title) {
-  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+// ── DELETE ─────────────────────────────────────────────────────────
+async function doDelete(id, title) {
+  if (!confirm('Delete "' + title + '"?\nThis cannot be undone.')) return;
+
   try {
-    const res = await fetch('/api/posts', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SESSION_TOKEN}` },
-      body: JSON.stringify({ id }),
+    const r    = await fetch('/api/posts', {
+      method:  'DELETE',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+      body:    JSON.stringify({ id }),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Delete failed');
+    // If we were editing this post, reset form
+    if (EDITING_ID === id) resetForm();
     loadPosts();
   } catch (err) {
-    alert('Failed to delete: ' + err.message);
+    alert('Delete failed: ' + err.message);
   }
 }
 
-// ── EXPORT BACKUP ──
-async function exportPosts() {
+// ── EXPORT ─────────────────────────────────────────────────────────
+async function doExport() {
   try {
-    const res  = await fetch('/api/posts');
-    const data = await res.json();
-    const posts = data.posts || [];
+    const r    = await fetch('/api/posts');
+    const data = await r.json();
+    const list = data.posts || [];
+    if (!list.length) { alert('No posts to export.'); return; }
 
-    if (!posts.length) {
-      alert('No posts to export yet.');
-      return;
-    }
-
-    const backup = {
-      exported_at: new Date().toISOString(),
-      total: posts.length,
-      posts,
-    };
-
-    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    const date = new Date().toISOString().split('T')[0];
-    a.href     = url;
-    a.download = `xenon-blog-backup-${date}.json`;
+    const backup = { exported_at: new Date().toISOString(), total: list.length, posts: list };
+    const blob   = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url    = URL.createObjectURL(blob);
+    const a      = document.createElement('a');
+    a.href       = url;
+    a.download   = 'xenon-blog-backup-' + new Date().toISOString().split('T')[0] + '.json';
     a.click();
     URL.revokeObjectURL(url);
   } catch (err) {
@@ -589,49 +760,33 @@ async function exportPosts() {
   }
 }
 
-// ── IMPORT BACKUP ──
-function importPosts() {
-  // click handled by the file input inside the button
-}
-
-async function handleImport(input) {
+// ── IMPORT ─────────────────────────────────────────────────────────
+async function doImport(input) {
   const file = input.files[0];
   if (!file) return;
-
-  if (!confirm('This will re-upload all posts from the backup file. Duplicate posts may appear if they already exist. Continue?')) {
+  if (!confirm('Re-upload all posts from this backup? Duplicates may appear if posts already exist.')) {
     input.value = ''; return;
   }
 
   try {
     const text   = await file.text();
     const backup = JSON.parse(text);
-    const posts  = backup.posts || [];
+    const list   = backup.posts || [];
+    if (!list.length) { alert('No posts found in file.'); return; }
 
-    if (!posts.length) { alert('No posts found in backup file.'); return; }
-
-    let success = 0, failed = 0;
-
-    for (const p of posts) {
-      const res = await fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${SESSION_TOKEN}`,
-        },
-        body: JSON.stringify({
-          title:      p.title,
-          subtitle:   p.subtitle,
-          category:   p.category,
-          tags:       p.tags,
-          body:       p.body,
-          bannerType: p.bannerType,
-          bannerMsg:  p.bannerMsg,
+    let ok = 0, fail = 0;
+    for (const p of list) {
+      const r = await fetch('/api/posts', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+        body:    JSON.stringify({
+          title: p.title, subtitle: p.subtitle, category: p.category,
+          tags: p.tags, body: p.body, bannerType: p.bannerType, bannerMsg: p.bannerMsg,
         }),
       });
-      res.ok ? success++ : failed++;
+      r.ok ? ok++ : fail++;
     }
-
-    alert(`Import complete.\n✓ ${success} posts restored${failed ? `\n✗ ${failed} failed` : ''}.`);
+    alert('Import done.\n✓ ' + ok + ' restored' + (fail ? '\n✗ ' + fail + ' failed' : ''));
     loadPosts();
   } catch (err) {
     alert('Import failed: ' + err.message);
@@ -640,6 +795,15 @@ async function handleImport(input) {
   }
 }
 
+// ── UTILS ──────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  return String(s).replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
 </script>
 </body>
 </html>
