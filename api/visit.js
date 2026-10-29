@@ -52,11 +52,10 @@ export default async function handler(req, res) {
   }
 
   // Store visitor pin (keep last 100 unique locations) only when counting a new daily visit
-  if (shouldCount && lat !== null && lon !== null) {
+  if (shouldCount && lat && lon) {
     const pin = JSON.stringify({ lat, lon, country, city, ts: now });
     await redis(['LPUSH', 'portfolio:pins', pin]);
     await redis(['LTRIM', 'portfolio:pins', '0', '99']);
-    await redis(['HINCRBY', 'portfolio:location-visits', JSON.stringify([city, country]), '1']);
   }
 
   return res.status(200).json({ count, lat, lon, country, city, counted: shouldCount });
