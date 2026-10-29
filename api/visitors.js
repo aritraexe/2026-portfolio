@@ -11,9 +11,10 @@ export default async function handler(req, res) {
     return r.json();
   };
 
-  const [countRes, pinsRes] = await Promise.all([
+  const [countRes, pinsRes, locationsRes] = await Promise.all([
     redis(['GET', 'portfolio:visits']),
     redis(['LRANGE', 'portfolio:pins', '0', '99']),
+    redis(['HGETALL', 'portfolio:location-visits']),
   ]);
 
   const count = parseInt(countRes.result || '0', 10);
@@ -29,5 +30,19 @@ export default async function handler(req, res) {
     seen.add(key); return true;
   });
 
-  return res.status(200).json({ count, pins: unique });
+  const locations = [];
+  const locationEntries = locationsRes.result || [];
+  for (let i = 0; i + 1 < locationEntries.length; i += 2) {
+    try {
+      const [city, country] = JSON.parse(locationEntries[i]);
+      locations.push({
+        city,
+        country,
+        count: parseInt(locationEntries[i + 1], 10) || 0,
+      });
+    } catch {}
+  }
+  locations.sort((a, b) => b.count - a.count);
+
+  return res.status(200).json({ count, pins: unique, locations });
 }

@@ -363,7 +363,7 @@ html, body{ overflow-x: hidden; }
 .live-sub { font-size: 0.75rem; color: var(--muted); }
 .globe-card {
   grid-column: 1 / -1;
-  padding: 0; overflow: hidden;
+  padding: 0; overflow: visible;
 }
 .globe-header {
   padding: 1rem 1.4rem 0.8rem;
@@ -373,6 +373,83 @@ html, body{ overflow-x: hidden; }
 .globe-latest {
   font-family: 'Racing Sans One';
   font-size: 0.63rem; color: var(--muted);
+}
+#globeTotalCount {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+#globeTotalCount:hover,
+#globeTotalCount:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.globe-count-wrapper {
+  position: relative;
+}
+.location-dialog {
+  position: absolute;
+  top: calc(100% + .6rem);
+  right: 0;
+  z-index: 1000;
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: min(75vh, 36rem);
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg2);
+  color: var(--text);
+  box-shadow: 0 16px 48px rgba(0,0,0,.35);
+}
+.location-dialog[hidden] {
+  display: none;
+}
+.location-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.location-dialog-header h2 {
+  margin: 0;
+  font-family: 'Racing Sans One';
+  font-size: 1rem;
+  font-weight: 400;
+}
+.location-dialog-close {
+  padding: .3rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.location-visit-list {
+  display: grid;
+  gap: .55rem;
+  max-height: calc(min(75vh, 36rem) - 4rem);
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.location-visit-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .8rem;
+}
+.location-visit-count {
+  flex-shrink: 0;
+  color: var(--muted);
 }
 #globeCanvas {
   width: 100%; height: 290px;
@@ -486,8 +563,15 @@ html, body{ overflow-x: hidden; }
       <div class="live-card globe-card">
         <div class="globe-header">
           <div class="live-label" style="margin:0;"><span class="live-dot"></span>Visitor Globe</div>
-          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.2rem;">
-            <div class="globe-latest" id="globeTotalCount">0 total visitors</div>
+          <div class="globe-count-wrapper" style="display:flex; flex-direction:column; align-items:flex-end; gap:0.2rem;">
+            <button class="globe-latest" id="globeTotalCount" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="locationDialog">0 total visitors</button>
+            <div class="location-dialog" id="locationDialog" role="dialog" aria-label="Visitor locations" hidden>
+              <div class="location-dialog-header">
+                <h2>Visitor locations</h2>
+                <button class="location-dialog-close" id="locationDialogClose" type="button">Close</button>
+              </div>
+              <ul class="location-visit-list" id="locationVisitList"></ul>
+            </div>
           </div>
         </div>
         <div id="globeTooltip" class="globe-tooltip"></div>
@@ -691,6 +775,7 @@ setInterval(updateIndiaTime, 1000);
 <script>
 // Visit counter + pin data
 let visitorPins = [];
+let visitorLocations = [];
 (async () => {
   try {
     const visitorStorageKey = 'visitor-id';
@@ -712,6 +797,8 @@ let visitorPins = [];
     const gl = document.getElementById('globeLatest');
     if (vc) vc.textContent = (data.count || 0).toLocaleString();
     visitorPins = data.pins || [];
+    visitorLocations = data.locations || [];
+    renderVisitorLocations();
     if (uc) uc.textContent = visitorPins.length.toLocaleString();
     if (gt) gt.textContent = `${(data.count || 0).toLocaleString()} total visitors`;
     if (gc) gc.textContent = visitorPins.length + ' unique locations';
@@ -720,6 +807,52 @@ let visitorPins = [];
   } catch(_) {}
   initGlobe();
 })();
+
+const locationDialog = document.getElementById('locationDialog');
+const locationVisitList = document.getElementById('locationVisitList');
+const globeTotalCount = document.getElementById('globeTotalCount');
+function setLocationPopupOpen(open) {
+  locationDialog.hidden = !open;
+  globeTotalCount.setAttribute('aria-expanded', String(open));
+}
+globeTotalCount.addEventListener('click', () => {
+  setLocationPopupOpen(locationDialog.hidden);
+});
+document.getElementById('locationDialogClose').addEventListener('click', () => {
+  setLocationPopupOpen(false);
+});
+document.addEventListener('click', event => {
+  if (!locationDialog.hidden && !locationDialog.parentElement.contains(event.target)) {
+    setLocationPopupOpen(false);
+  }
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !locationDialog.hidden) {
+    setLocationPopupOpen(false);
+    globeTotalCount.focus();
+  }
+});
+
+function renderVisitorLocations() {
+  locationVisitList.replaceChildren();
+  if (visitorLocations.length === 0) {
+    const empty = document.createElement('li');
+    empty.textContent = 'No location visits recorded yet.';
+    locationVisitList.append(empty);
+    return;
+  }
+
+  visitorLocations.forEach(location => {
+    const row = document.createElement('li');
+    const name = document.createElement('span');
+    const count = document.createElement('span');
+    name.textContent = `${location.city}, ${location.country}`;
+    count.className = 'location-visit-count';
+    count.textContent = `${location.count.toLocaleString()} visits`;
+    row.append(name, count);
+    locationVisitList.append(row);
+  });
+}
 
 // Globe
 const globeCanvas = document.getElementById('globeCanvas');
