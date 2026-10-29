@@ -363,7 +363,7 @@ html, body{ overflow-x: hidden; }
 .live-sub { font-size: 0.75rem; color: var(--muted); }
 .globe-card {
   grid-column: 1 / -1;
-  padding: 0; overflow: visible;
+  padding: 0; overflow: hidden;
 }
 .globe-header {
   padding: 1rem 1.4rem 0.8rem;
@@ -388,14 +388,7 @@ html, body{ overflow-x: hidden; }
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.globe-count-wrapper {
-  position: relative;
-}
 .location-dialog {
-  position: absolute;
-  top: calc(100% + .6rem);
-  right: 0;
-  z-index: 1000;
   width: min(24rem, calc(100vw - 2rem));
   max-height: min(75vh, 36rem);
   padding: 1.25rem;
@@ -405,8 +398,9 @@ html, body{ overflow-x: hidden; }
   color: var(--text);
   box-shadow: 0 16px 48px rgba(0,0,0,.35);
 }
-.location-dialog[hidden] {
-  display: none;
+.location-dialog::backdrop {
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(3px);
 }
 .location-dialog-header {
   display: flex;
@@ -433,7 +427,7 @@ html, body{ overflow-x: hidden; }
 .location-visit-list {
   display: grid;
   gap: .55rem;
-  max-height: calc(min(75vh, 36rem) - 4rem);
+  max-height: calc(min(75vh, 36rem) - 5rem);
   overflow-y: auto;
   margin: 0;
   padding: 0;
@@ -563,15 +557,8 @@ html, body{ overflow-x: hidden; }
       <div class="live-card globe-card">
         <div class="globe-header">
           <div class="live-label" style="margin:0;"><span class="live-dot"></span>Visitor Globe</div>
-          <div class="globe-count-wrapper" style="display:flex; flex-direction:column; align-items:flex-end; gap:0.2rem;">
-            <button class="globe-latest" id="globeTotalCount" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="locationDialog">0 total visitors</button>
-            <div class="location-dialog" id="locationDialog" role="dialog" aria-label="Visitor locations" hidden>
-              <div class="location-dialog-header">
-                <h2>Visitor locations</h2>
-                <button class="location-dialog-close" id="locationDialogClose" type="button">Close</button>
-              </div>
-              <ul class="location-visit-list" id="locationVisitList"></ul>
-            </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.2rem;">
+            <button class="globe-latest" id="globeTotalCount" type="button" aria-haspopup="dialog" aria-controls="locationDialog">0 total visitors</button>
           </div>
         </div>
         <div id="globeTooltip" class="globe-tooltip"></div>
@@ -583,6 +570,13 @@ html, body{ overflow-x: hidden; }
       </div>
 
     </div>
+    <dialog class="location-dialog" id="locationDialog" aria-labelledby="locationDialogTitle">
+      <div class="location-dialog-header">
+        <h2 id="locationDialogTitle">Visitor locations</h2>
+        <button class="location-dialog-close" id="locationDialogClose" type="button">Close</button>
+      </div>
+      <ul class="location-visit-list" id="locationVisitList"></ul>
+    </dialog>
   </div>
   <!-- ── END NEW ── -->
 
@@ -810,27 +804,14 @@ let visitorLocations = [];
 
 const locationDialog = document.getElementById('locationDialog');
 const locationVisitList = document.getElementById('locationVisitList');
-const globeTotalCount = document.getElementById('globeTotalCount');
-function setLocationPopupOpen(open) {
-  locationDialog.hidden = !open;
-  globeTotalCount.setAttribute('aria-expanded', String(open));
-}
-globeTotalCount.addEventListener('click', () => {
-  setLocationPopupOpen(locationDialog.hidden);
+document.getElementById('globeTotalCount').addEventListener('click', () => {
+  locationDialog.showModal();
 });
 document.getElementById('locationDialogClose').addEventListener('click', () => {
-  setLocationPopupOpen(false);
+  locationDialog.close();
 });
-document.addEventListener('click', event => {
-  if (!locationDialog.hidden && !locationDialog.parentElement.contains(event.target)) {
-    setLocationPopupOpen(false);
-  }
-});
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !locationDialog.hidden) {
-    setLocationPopupOpen(false);
-    globeTotalCount.focus();
-  }
+locationDialog.addEventListener('click', event => {
+  if (event.target === locationDialog) locationDialog.close();
 });
 
 function renderVisitorLocations() {
