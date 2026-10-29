@@ -21,13 +21,21 @@ export default async function handler(req, res) {
     try { return JSON.parse(p); } catch { return null; }
   }).filter(Boolean);
 
-  // Deduplicate by rounding coords to 1 decimal
+  // Deduplicate by rounded coordinates and retain the visit total for each marker.
+  const locationKey = p => `${Math.round(p.lat * 10)},${Math.round(p.lon * 10)}`;
+  const visitCounts = new Map();
+  pins.forEach(p => {
+    const key = locationKey(p);
+    visitCounts.set(key, (visitCounts.get(key) || 0) + 1);
+  });
+
   const seen = new Set();
   const unique = pins.filter(p => {
-    const key = `${Math.round(p.lat * 10)},${Math.round(p.lon * 10)}`;
+    const key = locationKey(p);
     if (seen.has(key)) return false;
     seen.add(key); return true;
   });
+  const locations = unique.map(p => ({ ...p, visits: visitCounts.get(locationKey(p)) }));
 
-  return res.status(200).json({ count, pins: unique });
+  return res.status(200).json({ count, pins: locations });
 }
